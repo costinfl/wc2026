@@ -1,67 +1,263 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import {
-  Trophy,
-  Users,
-  Settings,
-  Check,
-  Info,
-  Compass,
-  Unlock,
-  Award,
-  Star,
-  AlertCircle,
-  Database,
-  Shuffle,
-  Clock,
-  UserPlus,
-  Mail,
-  LogIn,
-  KeyRound,
-  Inbox,
-  Share2,
-  Copy,
-  FileUp,
-  Trash2
-} from 'lucide-react';
 
-// Firebase Setup
-import { initializeApp } from 'firebase/app';
-import {
-  getFirestore,
-  collection,
-  doc,
-  setDoc,
-  deleteDoc,
-  onSnapshot
-} from 'firebase/firestore';
-import {
-  getAuth,
-  signInAnonymously,
-  signInWithCustomToken,
-  onAuthStateChanged
-} from 'firebase/auth';
+
+// Pure, standard SVG Icons to prevent native window constructor clashes
+const Trophy = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+      <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+      <path d="M4 22h16" />
+      <path d="M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34" />
+      <path d="M12 2a6 6 0 0 1 6 6v5a6 6 0 0 1-6 6 6 6 0 0 1-6-6V8a6 6 0 0 1 6-6z" />
+    </svg>
+);
+
+const Users = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+);
+
+const Settings = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.1a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+);
+
+const Check = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+);
+
+const Info = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="16" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12.01" y2="8" />
+    </svg>
+);
+
+const Compass = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <circle cx="12" cy="12" r="10" />
+      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+    </svg>
+);
+
+const Unlock = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+      <path d="M7 11V7a5 5 0 0 1 9.9-1" />
+    </svg>
+);
+
+const Lock = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    </svg>
+);
+
+const Award = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <circle cx="12" cy="8" r="7" />
+      <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+    </svg>
+);
+
+const Star = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
+);
+
+const AlertCircle = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="12" />
+      <line x1="12" y1="16" x2="12.01" y2="16" />
+    </svg>
+);
+
+const Shuffle = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <polyline points="16 3 21 3 21 8" />
+      <line x1="4" y1="20" x2="21" y2="3" />
+      <polyline points="21 16 21 21 16 21" />
+      <line x1="15" y1="15" x2="21" y2="21" />
+      <line x1="4" y1="4" x2="9" y2="9" />
+    </svg>
+);
+
+const Clock = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
+);
+
+const UserPlus = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <line x1="19" y1="8" x2="19" y2="14" />
+      <line x1="22" y1="11" x2="16" y2="11" />
+    </svg>
+);
+
+const Mail = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+      <polyline points="22,6 12,13 2,6" />
+    </svg>
+);
+
+const LogIn = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+      <polyline points="10 17 15 12 10 7" />
+      <line x1="15" y1="12" x2="3" y2="12" />
+    </svg>
+);
+
+const KeyRound = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M2 18v3c0 .6.4 1 1 1h4v-3h3v-3h2l1.4-1.4a6.5 6.5 0 1 0-4-4M20 4a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
+    </svg>
+);
+
+const Inbox = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
+      <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
+    </svg>
+);
+
+const Share2 = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <circle cx="18" cy="5" r="3" />
+      <circle cx="6" cy="12" r="3" />
+      <circle cx="18" cy="19" r="3" />
+      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+    </svg>
+);
+
+const Copy = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+    </svg>
+);
+
+const FileUp = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+      <line x1="12" y1="18" x2="12" y2="12" />
+      <polyline points="9 15 12 12 15 15" />
+    </svg>
+);
+
+const Trash2 = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <polyline points="3 6 5 6 21 6" />
+      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      <line x1="10" y1="11" x2="10" y2="17" />
+      <line x1="14" y1="11" x2="14" y2="17" />
+    </svg>
+);
+
 
 // 12 groups of World Cup 2026
 const TEAMS_BY_GROUP = {
-  A: { name: 'Group A', teams: ['Mexico', 'South Africa', 'South Korea', 'Czechia'], flags: { 'Mexico': '🇲🇽', 'South Africa': '🇿🇦', 'South Korea': '🇰🇷', 'Czechia': '🇨🇿' } },
-  B: { name: 'Group B', teams: ['Canada', 'Switzerland', 'Qatar', 'Bosnia and Herzegovina'], flags: { 'Canada': '🇨🇦', 'Switzerland': '🇨🇭', 'Qatar': '🇶🇦', 'Bosnia and Herzegovina': '🇧🇦' } },
-  C: { name: 'Group C', teams: ['Brazil', 'Morocco', 'Haiti', 'Scotland'], flags: { 'Brazil': '🇧🇷', 'Morocco': '🇲🇦', 'Haiti': '🇭🇹', 'Scotland': '🏴󠁧󠁢󠁳󠁣󠁴󠁿' } },
-  D: { name: 'Group D', teams: ['United States', 'Paraguay', 'Australia', 'Türkiye'], flags: { 'United States': '🇺🇸', 'Paraguay': '🇵🇾', 'Australia': '🇦🇺', 'Türkiye': '🇹🇷' } },
-  E: { name: 'Group E', teams: ['Germany', 'Curaçao', 'Côte d\'Ivoire', 'Ecuador'], flags: { 'Germany': '🇩🇪', 'Curaçao': '🇨🇼', 'Côte d\'Ivoire': '🇨🇮', 'Ecuador': '🇪🇨' } },
-  F: { name: 'Group F', teams: ['Netherlands', 'Japan', 'Tunisia', 'Sweden'], flags: { 'Netherlands': '🇳🇱', 'Japan': '🇯🇵', 'Tunisia': '🇹🇳', 'Sweden': '🇸🇪' } },
-  G: { name: 'Group G', teams: ['Belgium', 'Egypt', 'Iran', 'New Zealand'], flags: { 'Belgium': '🇧🇪', 'Egypt': '🇪🇬', 'Iran': '🇮🇷', 'New Zealand': '🇳🇿' } },
-  H: { name: 'Group H', teams: ['Spain', 'Cabo Verde', 'Saudi Arabia', 'Uruguay'], flags: { 'Spain': '🇪🇸', 'Cabo Verde': '🇨🇻', 'Saudi Arabia': '🇸🇦', 'Uruguay': '🇺🇾' } },
-  I: { name: 'Group I', teams: ['France', 'Senegal', 'Norway', 'Iraq'], flags: { 'France': '🇫🇷', 'Senegal': '🇸🇳', 'Norway': '🇳🇴', 'Iraq': '🇮🇶' } },
-  J: { name: 'Group J', teams: ['Argentina', 'Algeria', 'Austria', 'Jordan'], flags: { 'Argentina': '🇦🇷', 'Algeria': '🇩🇿', 'Austria': '🇦🇹', 'Jordan': '🇯🇴' } },
-  K: { name: 'Group K', teams: ['Portugal', 'Uzbekistan', 'Colombia', 'Congo DR'], flags: { 'Portugal': '🇵🇹', 'Uzbekistan': '🇺🇿', 'Colombia': '🇨🇴', 'Congo DR': '🇨🇩' } },
-  L: { name: 'Group L', teams: ['England', 'Croatia', 'Ghana', 'Panama'], flags: { 'England': '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'Croatia': '🇭🇷', 'Ghana': '🇬🇭', 'Panama': '🇵🇦' } }
+  A: { name: 'Group A', teams: ['Mexico', 'South Africa', 'South Korea', 'Czechia'] },
+  B: { name: 'Group B', teams: ['Canada', 'Switzerland', 'Qatar', 'Bosnia and Herzegovina'] },
+  C: { name: 'Group C', teams: ['Brazil', 'Morocco', 'Haiti', 'Scotland'] },
+  D: { name: 'Group d', teams: ['United States', 'Paraguay', 'Australia', 'Türkiye'] },
+  E: { name: 'Group E', teams: ['Germany', 'Curaçao', 'Côte d\'Ivoire', 'Ecuador'] },
+  F: { name: 'Group F', teams: ['Netherlands', 'Japan', 'Tunisia', 'Sweden'] },
+  G: { name: 'Group G', teams: ['Belgium', 'Egypt', 'Iran', 'New Zealand'] },
+  H: { name: 'Group H', teams: ['Spain', 'Cabo Verde', 'Saudi Arabia', 'Uruguay'] },
+  I: { name: 'Group I', teams: ['France', 'Senegal', 'Norway', 'Iraq'] },
+  J: { name: 'Group J', teams: ['Argentina', 'Algeria', 'Austria', 'Jordan'] },
+  K: { name: 'Group K', teams: ['Portugal', 'Uzbekistan', 'Colombia', 'Congo DR'] },
+  L: { name: 'Group L', teams: ['England', 'Croatia', 'Ghana', 'Panama'] }
 };
 
-const ALL_FLAGS = Object.values(TEAMS_BY_GROUP).reduce((acc, current) => {
-  return { ...acc, ...current.flags };
-}, {});
+const COUNTRY_CODES = {
+  'Mexico': 'mx',
+  'South Africa': 'za',
+  'South Korea': 'kr',
+  'Czechia': 'cz',
+  'Canada': 'ca',
+  'Switzerland': 'ch',
+  'Qatar': 'qa',
+  'Bosnia and Herzegovina': 'ba',
+  'Brazil': 'br',
+  'Morocco': 'ma',
+  'Haiti': 'ht',
+  'Scotland': 'gb-sct',
+  'United States': 'us',
+  'Paraguay': 'py',
+  'Australia': 'au',
+  'Türkiye': 'tr',
+  'Germany': 'de',
+  'Curaçao': 'cw',
+  'Côte d\'Ivoire': 'ci',
+  'Ecuador': 'ec',
+  'Netherlands': 'nl',
+  'Japan': 'jp',
+  'Tunisia': 'tn',
+  'Sweden': 'se',
+  'Belgium': 'be',
+  'Egypt': 'eg',
+  'Iran': 'ir',
+  'New Zealand': 'nz',
+  'Spain': 'es',
+  'Cabo Verde': 'cv',
+  'Saudi Arabia': 'sa',
+  'Uruguay': 'uy',
+  'France': 'fr',
+  'Senegal': 'sn',
+  'Norway': 'no',
+  'Iraq': 'iq',
+  'Argentina': 'ar',
+  'Algeria': 'dz',
+  'Austria': 'at',
+  'Jordan': 'jo',
+  'Portugal': 'pt',
+  'Uzbekistan': 'uz',
+  'Colombia': 'co',
+  'Congo DR': 'cd',
+  'England': 'gb-eng',
+  'Croatia': 'hr',
+  'Ghana': 'gh',
+  'Panama': 'pa'
+};
 
-const getFlag = (team) => ALL_FLAGS[team] || '🏳️';
+const Flag = ({ team, className = "w-5 h-3.5 object-cover rounded shadow border border-slate-200" }) => {
+  const code = COUNTRY_CODES[team];
+  if (!code) {
+    return <span className="text-xs mr-1 shrink-0">🏳️</span>;
+  }
+  return (
+      <img
+          src={`https://flagcdn.com/w40/${code}.png`}
+          alt={`${team} flag`}
+          className={`${className} inline-block shrink-0`}
+          onError={(e) => {
+            e.target.style.display = 'none';
+          }}
+      />
+  );
+};
+
 
 const INITIAL_GROUP_MATCHES = [
   { id: 'm1', stage: 'group', group: 'A', home: 'Mexico', away: 'South Africa', date: 'June 11, 2026' },
@@ -108,6 +304,7 @@ const COMPACT_INDEX_KEYS = [
   'm13', 'm14', 'm15', 'm16', 'm17', 'm18', 'm19', 'm20', 'm21', 'm22', 'm23', 'm24',
   'ko_r32_1', 'ko_r32_2', 'ko_r32_3', 'ko_r32_4', 'ko_r16_1', 'ko_r16_2', 'ko_qf_1', 'ko_sf_1', 'ko_final'
 ];
+
 
 // Pack predictions map into high-density Base64 string
 const packPredictionsString = (predictions) => {
@@ -160,6 +357,7 @@ const unpackPredictionsString = (hash) => {
   }
 };
 
+
 // Scoring engine
 export const calculatePoints = (prediction, actual) => {
   if (!actual || actual.home === undefined || actual.away === undefined || !actual.finished) {
@@ -194,28 +392,9 @@ export const calculatePoints = (prediction, actual) => {
   return { points: 0, reason: 'Incorrect' };
 };
 
-// Global Firebase Instantiations
-let appInstance = null;
-let authInstance = null;
-let dbInstance = null;
-const appIdentifier = typeof __app_id !== 'undefined' ? __app_id : 'world-cup-prediction-pool-2026';
-
-if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-  try {
-    const firebaseConfig = typeof __firebase_config === 'string' ? JSON.parse(__firebase_config) : __firebase_config;
-    appInstance = initializeApp(firebaseConfig);
-    authInstance = getAuth(appInstance);
-    dbInstance = getFirestore(appInstance);
-  } catch (err) {
-    console.error("Firebase startup failure:", err);
-  }
-}
 
 export default function App() {
-  const [user, setUser] = useState(null);
-  const [dbStatus, setDbStatus] = useState('offline');
-
-  // Friends & Standings - Default empty slate
+  // Friends list & local states
   const [friendsList, setFriendsList] = useState([]);
   const [selectedFriendId, setSelectedFriendId] = useState('');
 
@@ -225,7 +404,7 @@ export default function App() {
 
   // UI Panels
   const [activeTab, setActiveTab] = useState('predictions');
-  const [groupFilter, setGroupFilter] = useState('All');
+  const [groupFilter, setGroupFilter] = useState('A'); // Default to Group A to keep UI concise
   const [isAdminMode, setIsAdminMode] = useState(false);
   const [notification, setNotification] = useState(null);
 
@@ -252,6 +431,7 @@ export default function App() {
   const selectedFriend = useMemo(() => {
     return friendsList.find(f => f.id === selectedFriendId) || null;
   }, [friendsList, selectedFriendId]);
+
 
   // Toast Notification
   const triggerNotification = (message, type = 'success') => {
@@ -280,19 +460,24 @@ export default function App() {
     }
   };
 
-  // Helper: Persist local browser backup
-  const saveLocalUsersState = (updatedList) => {
-    if (dbStatus !== 'online') {
-      try {
-        localStorage.setItem('wc_users', JSON.stringify(updatedList));
-      } catch (err) {
-        console.error("Local storage save failed", err);
-      }
-    }
-  };
 
-  // EFFECT 1: Handle URL Parameters Auto-Import AND Auth Initialization
+  // Read Local Storage values on launch, and parse URL invitation parameters
   useEffect(() => {
+    let loadedUsers = [];
+    try {
+      const localUsers = localStorage.getItem('wc_users');
+      const localScores = localStorage.getItem('wc_real_scores');
+      if (localUsers) {
+        loadedUsers = JSON.parse(localUsers);
+        setFriendsList(loadedUsers);
+      }
+      if (localScores) {
+        setRealResults(JSON.parse(localScores));
+      }
+    } catch (err) {
+      console.error("Fallback loaders failed", err);
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
     const importName = urlParams.get('importName');
     const importEmail = urlParams.get('importEmail') || 'shared-pool-member@domain.com';
@@ -309,23 +494,22 @@ export default function App() {
         totalPoints: 0
       };
 
-      setFriendsList(prev => {
-        const alreadyExists = prev.some(f => f.name.toLowerCase() === importedUser.name.toLowerCase() || f.email.toLowerCase() === importedUser.email.toLowerCase());
-        if (!alreadyExists) {
-          const updated = [...prev, importedUser];
-          saveLocalUsersState(updated);
+      const nameCheck = decodeURIComponent(importName).toLowerCase();
+      const alreadyExists = loadedUsers.some(f => f.name.toLowerCase() === nameCheck);
 
-          if (dbInstance && authInstance?.currentUser) {
-            const userRef = doc(dbInstance, 'artifacts', appIdentifier, 'public', 'data', 'users', importedId);
-            setDoc(userRef, importedUser).catch(console.error);
-          }
-          return updated;
+      if (!alreadyExists) {
+        const updatedList = [...loadedUsers, importedUser];
+        setFriendsList(updatedList);
+        localStorage.setItem('wc_users', JSON.stringify(updatedList));
+        setSelectedFriendId(importedId);
+        triggerNotification(`Teammate "${importedUser.name}" imported with custom predictions!`, "success");
+      } else {
+        const existing = loadedUsers.find(f => f.name.toLowerCase() === nameCheck);
+        if (existing) {
+          setSelectedFriendId(existing.id);
+          triggerNotification(`Focused on "${existing.name}" (already imported previously).`, "info");
         }
-        return prev;
-      });
-
-      setSelectedFriendId(importedId);
-      triggerNotification(`Teammate "${importedUser.name}" imported with custom prediction slate!`, "success");
+      }
 
       try {
         const cleanURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
@@ -333,84 +517,22 @@ export default function App() {
       } catch (e) {
         console.error(e);
       }
-    }
-
-    if (authInstance) {
-      const initAuth = async () => {
-        try {
-          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-            await signInWithCustomToken(authInstance, __initial_auth_token);
-          } else {
-            await signInAnonymously(authInstance);
-          }
-        } catch (err) {
-          console.error("Auth process error:", err);
-        }
-      };
-      initAuth();
-
-      const unsubscribe = onAuthStateChanged(authInstance, (usr) => {
-        setUser(usr);
-        if (usr) {
-          setDbStatus('online');
-        } else {
-          setDbStatus('offline');
-        }
-      });
-      return () => unsubscribe();
     } else {
-      try {
-        const localUsers = localStorage.getItem('wc_users');
-        const localScores = localStorage.getItem('wc_real_scores');
-        if (localUsers) {
-          const parsed = JSON.parse(localUsers);
-          setFriendsList(parsed);
-          if (parsed.length > 0 && !selectedFriendId) {
-            setSelectedFriendId(parsed[0].id);
-          }
-        }
-        if (localScores) {
-          setRealResults(JSON.parse(localScores));
-        }
-      } catch (err) {
-        console.error("Fallback loaders failed", err);
+      if (loadedUsers.length > 0) {
+        setSelectedFriendId(loadedUsers[0].id);
       }
     }
   }, []);
 
-  // EFFECT 2: Listen for Live Sync Database Updates
-  useEffect(() => {
-    if (!user || !dbInstance) return;
+  // Save changes to local storage helper
+  const saveStateToLocal = (list) => {
+    try {
+      localStorage.setItem('wc_users', JSON.stringify(list));
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
-    const userCol = collection(dbInstance, 'artifacts', appIdentifier, 'public', 'data', 'users');
-    const unsubscribeUsers = onSnapshot(userCol, (snapshot) => {
-      const list = [];
-      snapshot.forEach((doc) => {
-        list.push({ id: doc.id, ...doc.data() });
-      });
-      setFriendsList(list);
-      setSelectedFriendId(prev => {
-        if (prev && list.some(item => item.id === prev)) return prev;
-        return list[0]?.id || '';
-      });
-    }, (err) => {
-      console.error("Users sync listener failed:", err);
-    });
-
-    const outcomeDoc = doc(dbInstance, 'artifacts', appIdentifier, 'public', 'data', 'results', 'global');
-    const unsubscribeResults = onSnapshot(outcomeDoc, (snap) => {
-      if (snap.exists()) {
-        setRealResults(snap.data().scores || {});
-      }
-    }, (err) => {
-      console.error("Outcomes listener failed:", err);
-    });
-
-    return () => {
-      unsubscribeUsers();
-      unsubscribeResults();
-    };
-  }, [user]);
 
   // Handle manual code parsing from inputs
   const handleManualShareCodeImport = (e) => {
@@ -439,20 +561,14 @@ export default function App() {
     });
 
     setFriendsList(updatedFriends);
-    saveLocalUsersState(updatedFriends);
-
-    if (dbInstance && dbStatus === 'online' && user) {
-      const userRef = doc(dbInstance, 'artifacts', appIdentifier, 'public', 'data', 'users', selectedFriendId);
-      setDoc(userRef, { predictions: decoded }, { merge: true }).catch(console.error);
-    }
-
+    saveStateToLocal(updatedFriends);
     setManualShareCode('');
     setShowManualImportField(false);
     triggerNotification(`Successfully loaded predictions onto ${selectedFriend?.name}'s slate!`);
   };
 
   // Safe Predict Score change
-  const savePrediction = async (matchId, team, scoreVal) => {
+  const savePrediction = (matchId, team, scoreVal) => {
     if (!selectedFriendId) {
       triggerNotification("Please register or select a user first before predicting!", "error");
       return;
@@ -475,23 +591,9 @@ export default function App() {
     });
 
     setFriendsList(updatedFriends);
-    saveLocalUsersState(updatedFriends);
-
-    if (dbInstance && dbStatus === 'online' && user) {
-      try {
-        const targetFriend = updatedFriends.find(f => f.id === selectedFriendId);
-        const userRef = doc(dbInstance, 'artifacts', appIdentifier, 'public', 'data', 'users', selectedFriendId);
-        await setDoc(userRef, {
-          name: targetFriend.name,
-          email: targetFriend.email,
-          predictions: targetFriend.predictions,
-          totalPoints: targetFriend.totalPoints || 0
-        }, { merge: true });
-      } catch (err) {
-        console.error("Firestore prediction save failed:", err);
-      }
-    }
+    saveStateToLocal(updatedFriends);
   };
+
 
   // Submits registration and fires off simulated inbox code
   const handleRegisterSubmit = (e) => {
@@ -526,7 +628,7 @@ export default function App() {
   };
 
   // Verification
-  const verifyActivationCode = async () => {
+  const verifyActivationCode = () => {
     if (enteredActivationCode.trim() !== activationCodeSent) {
       triggerNotification("Incorrect activation number! Check the Simulated Inbox panel.", "error");
       return;
@@ -535,16 +637,7 @@ export default function App() {
     const updatedList = [...friendsList, pendingUserObj];
     setFriendsList(updatedList);
     setSelectedFriendId(pendingUserObj.id);
-    saveLocalUsersState(updatedList);
-
-    if (dbInstance && dbStatus === 'online' && user) {
-      try {
-        const userRef = doc(dbInstance, 'artifacts', appIdentifier, 'public', 'data', 'users', pendingUserObj.id);
-        await setDoc(userRef, pendingUserObj);
-      } catch (err) {
-        console.error("Failed creating cloud user record:", err);
-      }
-    }
+    saveStateToLocal(updatedList);
 
     setShowActivationModal(false);
     setRegName('');
@@ -553,6 +646,7 @@ export default function App() {
     setPendingUserObj(null);
     triggerNotification(`Welcome, ${pendingUserObj.name}! Your account has been verified and activated.`);
   };
+
 
   // Admin triggers User Removal flow
   const handleRequestRemoveUser = (targetFriend) => {
@@ -564,26 +658,15 @@ export default function App() {
   };
 
   // Execution of Deletion
-  const handleExecuteDeleteUser = async () => {
+  const handleExecuteDeleteUser = () => {
     if (!userToDelete) return;
 
     const filtered = friendsList.filter(f => f.id !== userToDelete.id);
     setFriendsList(filtered);
-    saveLocalUsersState(filtered);
+    saveStateToLocal(filtered);
 
-    // If the active viewed user was deleted, switch focus to first available
     if (selectedFriendId === userToDelete.id) {
       setSelectedFriendId(filtered[0]?.id || '');
-    }
-
-    // Trigger Cloud Firestore Document Deletion
-    if (dbInstance && dbStatus === 'online' && user) {
-      try {
-        const userDocRef = doc(dbInstance, 'artifacts', appIdentifier, 'public', 'data', 'users', userToDelete.id);
-        await deleteDoc(userDocRef);
-      } catch (err) {
-        console.error("Firestore document deletion failed:", err);
-      }
     }
 
     triggerNotification(`Successfully removed ${userToDelete.name} from the pool.`, "info");
@@ -597,25 +680,11 @@ export default function App() {
       triggerNotification("Admin Mode deactivated.", "info");
       return;
     }
-
-    if (!selectedFriend) {
-      triggerNotification("Access Denied! Register/Login as 'Costin' first to authenticate admin controls.", "error");
-      return;
-    }
-
-    const nameIsCostin = selectedFriend.name.toLowerCase() === 'costin';
-    const emailIsCostin = selectedFriend.email.toLowerCase().includes('costin');
-
-    if (!nameIsCostin && !emailIsCostin) {
-      triggerNotification("Access Denied! Only Costin can unlock the simulation master panel.", "error");
-      return;
-    }
-
     setShowAdminPasswordPrompt(true);
   };
 
   const verifyAdminPassword = () => {
-    if (adminPasswordInput.trim() === 'costin2026') {
+    if (adminPasswordInput.trim() === 'costin_secure_2026') {
       setIsAdminMode(true);
       setShowAdminPasswordPrompt(false);
       setAdminPasswordInput('');
@@ -626,7 +695,7 @@ export default function App() {
   };
 
   // Admin writes real scoreline
-  const handleSaveRealResult = async (matchId, team, scoreVal) => {
+  const handleSaveRealResult = (matchId, team, scoreVal) => {
     const numericScore = scoreVal === '' ? '' : parseInt(scoreVal);
     if (isNaN(numericScore) && scoreVal !== '') return;
 
@@ -640,28 +709,16 @@ export default function App() {
     };
 
     setRealResults(updatedResults);
-
-    if (dbStatus !== 'online') {
-      try {
-        localStorage.setItem('wc_real_scores', JSON.stringify(updatedResults));
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    if (dbInstance && dbStatus === 'online' && user) {
-      try {
-        const resultDoc = doc(dbInstance, 'artifacts', appIdentifier, 'public', 'data', 'results', 'global');
-        await setDoc(resultDoc, { scores: updatedResults }, { merge: true });
-      } catch (err) {
-        console.error("Firestore result save failed:", err);
-      }
+    try {
+      localStorage.setItem('wc_real_scores', JSON.stringify(updatedResults));
+    } catch (err) {
+      console.error(err);
     }
     triggerNotification(`Match score updated and recalculations triggered!`);
   };
 
   // Admin randomized outcomes
-  const handleSimulateGroupOutcomes = async () => {
+  const handleSimulateGroupOutcomes = () => {
     const simulated = { ...realResults };
     groupMatches.forEach(match => {
       simulated[match.id] = {
@@ -672,29 +729,17 @@ export default function App() {
     });
     setRealResults(simulated);
     triggerNotification("All Group stage matches simulated randomly!", "info");
-
-    if (dbStatus !== 'online') {
-      try {
-        localStorage.setItem('wc_real_scores', JSON.stringify(simulated));
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
-    if (dbInstance && dbStatus === 'online' && user) {
-      try {
-        const resultDoc = doc(dbInstance, 'artifacts', appIdentifier, 'public', 'data', 'results', 'global');
-        await setDoc(resultDoc, { scores: simulated }, { merge: true });
-      } catch (err) {
-        console.error(err);
-      }
+    try {
+      localStorage.setItem('wc_real_scores', JSON.stringify(simulated));
+    } catch (e) {
+      console.error(e);
     }
   };
 
   // Autocomplete prediction list randomly
   const handleRandomizeCurrentPredictions = () => {
     if (!selectedFriend) {
-      triggerNotification("Register or log in a user profile first!", "error");
+      triggerNotification("Register or select a profile first!", "error");
       return;
     }
     const randomizedPreds = {};
@@ -721,14 +766,10 @@ export default function App() {
     });
 
     setFriendsList(updatedFriends);
-    saveLocalUsersState(updatedFriends);
+    saveStateToLocal(updatedFriends);
     triggerNotification(`Randomized predictions for ${selectedFriend.name}!`);
-
-    if (dbInstance && dbStatus === 'online' && user) {
-      const userRef = doc(dbInstance, 'artifacts', appIdentifier, 'public', 'data', 'users', selectedFriendId);
-      setDoc(userRef, { predictions: randomizedPreds }, { merge: true }).catch(console.error);
-    }
   };
+
 
   // Standings score calculator
   const friendsWithScoredPoints = useMemo(() => {
@@ -791,51 +832,50 @@ export default function App() {
     return packPredictionsString(selectedFriend.predictions);
   }, [selectedFriend]);
 
-  return (
-      <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-emerald-500 selection:text-slate-950">
 
-        {/* Header element */}
-        <header className="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-40 px-4 py-3">
+  return (
+      <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-emerald-100 selection:text-emerald-900">
+
+        {/* Light Clean Header */}
+        <header className="border-b border-slate-200 bg-white/95 backdrop-blur sticky top-0 z-40 px-4 py-3 shadow-xs">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
 
             <div className="flex items-center gap-3">
-              <div className="p-2.5 bg-gradient-to-tr from-amber-500 to-emerald-500 rounded-xl text-slate-950 shadow-lg shadow-amber-500/10">
-                <Trophy className="w-6 h-6" />
+              <div className="p-2.5 bg-emerald-600 rounded-xl text-white shadow-md shadow-emerald-600/10">
+                <Trophy className="w-6 h-6 text-white" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h1 className="font-extrabold text-lg md:text-xl tracking-tight bg-gradient-to-r from-amber-400 via-emerald-300 to-teal-400 bg-clip-text text-transparent">
+                  <h1 className="font-extrabold text-lg md:text-xl tracking-tight text-slate-900">
                     WC 2026 Prediction Pool
                   </h1>
-                  <span className="text-xs font-semibold px-2 py-0.5 bg-slate-800 text-emerald-400 rounded-full border border-slate-700">
-                  Pack Persistence v2.5
+                  <span className="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded-full border border-slate-200">
+                  Static Client
                 </span>
                 </div>
-                <p className="text-xs text-slate-400">Collaborative prediction dashboard</p>
+                <p className="text-xs text-slate-500">Elegant tournament predictor & leaderboard</p>
               </div>
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
 
-              <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-800/80 rounded-lg text-xs border border-slate-700">
-                <Database className={`w-3.5 h-3.5 ${dbStatus === 'online' ? 'text-emerald-400' : 'text-amber-400'}`} />
-                <span>
-                {dbStatus === 'online' ? 'Live Synced' : 'Database Offline'}
-              </span>
+              <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-semibold text-slate-600">
+                <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span>URL Code Packing Enabled</span>
               </div>
 
-              {/* Profile Dropdown */}
+              {/* Profile Dropdown switcher */}
               {friendsList.length > 0 && (
                   <div className="flex items-center gap-2">
-                    <label className="text-xs text-slate-400 font-medium hidden sm:inline">Active Profile:</label>
+                    <label className="text-xs text-slate-500 font-semibold hidden sm:inline">Active User:</label>
                     <select
                         value={selectedFriendId}
                         onChange={(e) => setSelectedFriendId(e.target.value)}
-                        className="bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-lg px-3 py-1.5 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500 hover:bg-slate-900 transition-colors"
+                        className="bg-white border border-slate-200 text-slate-800 text-xs rounded-lg px-3 py-1.5 font-bold shadow-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 hover:bg-slate-50 transition-colors cursor-pointer"
                     >
                       {friendsList.map(friend => (
                           <option key={friend.id} value={friend.id}>
-                            👤 {friend.name} ({friend.name.toLowerCase() === 'costin' ? 'Admin' : 'Competitor'})
+                            👤 {friend.name}
                           </option>
                       ))}
                     </select>
@@ -846,23 +886,23 @@ export default function App() {
                   onClick={handleToggleAdminMode}
                   className={`flex items-center gap-1.5 text-xs font-extrabold px-3 py-1.5 rounded-lg border transition-all ${
                       isAdminMode
-                          ? 'bg-amber-500/20 text-amber-300 border-amber-500/50 shadow-lg shadow-amber-500/5'
-                          : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700'
+                          ? 'bg-amber-100 text-amber-800 border-amber-300 shadow-sm'
+                          : 'bg-white hover:bg-slate-50 text-slate-700 border-slate-200 shadow-xs'
                   }`}
               >
-                <Settings className="w-3.5 h-3.5" />
-                <span>{isAdminMode ? 'Exit Admin Mode' : 'Costin Admin Master'}</span>
+                {isAdminMode ? <Unlock className="w-3.5 h-3.5 text-amber-600" /> : <Lock className="w-3.5 h-3.5 text-slate-400" />}
+                <span>{isAdminMode ? 'Exit Admin Mode' : 'Admin Portal'}</span>
               </button>
 
             </div>
           </div>
         </header>
 
-        {/* Floating Alert Notifications */}
+        {/* Toast Notification */}
         {notification && (
-            <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2.5 bg-slate-900 border border-emerald-500/30 text-emerald-100 px-4 py-3.5 rounded-xl shadow-2xl max-w-sm">
-              <Check className="w-5 h-5 text-emerald-400 shrink-0" />
-              <span className="text-xs font-semibold leading-relaxed">{notification.text}</span>
+            <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2.5 bg-white border border-slate-200 text-slate-800 px-4 py-3.5 rounded-xl shadow-xl max-w-sm animate-fade-in">
+              <Check className="w-5 h-5 text-emerald-500 shrink-0" />
+              <span className="text-xs font-bold leading-relaxed">{notification.text}</span>
             </div>
         )}
 
@@ -871,28 +911,27 @@ export default function App() {
 
           {/* Costin Verification Screen modal */}
           {showAdminPasswordPrompt && (
-              <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl">
-                  <div className="flex items-center gap-3 text-amber-400 mb-4">
+              <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+                <div className="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-2xl">
+                  <div className="flex items-center gap-3 text-amber-600 mb-4">
                     <AlertCircle className="w-6 h-6 shrink-0" />
-                    <h3 className="font-extrabold text-lg">Costin Identity Verification</h3>
+                    <h3 className="font-extrabold text-lg">Admin Authentication</h3>
                   </div>
-                  <p className="text-xs text-slate-400 leading-relaxed mb-4">
-                    You are switching the system into master Admin Mode. To prevent bypass, please provide Costin's administrator verify key.
+                  <p className="text-xs text-slate-500 leading-relaxed mb-4">
+                    Please provide your secure administrator passkey to activate master outcome simulation controls.
                   </p>
-                  <div className="flex flex-col gap-1 mb-4">
-                    <label className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Secret Verification Key</label>
+                  <div className="flex flex-col gap-1.5 mb-4">
+                    <label className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Secret Verification Key</label>
                     <div className="relative">
-                      <KeyRound className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+                      <KeyRound className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                       <input
                           type="password"
-                          placeholder="Enter admin password..."
+                          placeholder="Enter passkey..."
                           value={adminPasswordInput}
                           onChange={(e) => setAdminPasswordInput(e.target.value)}
-                          className="bg-slate-950 border border-slate-800 text-sm rounded-xl pl-10 pr-4 py-2.5 w-full text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                          className="bg-slate-50 border border-slate-200 text-sm rounded-xl pl-10 pr-4 py-2.5 w-full text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500"
                       />
                     </div>
-                    <span className="text-[10px] text-slate-500 mt-1">Hint: Use the administrator setup key <code className="text-amber-400 bg-slate-950 px-1 py-0.5 rounded font-mono">costin2026</code> to verify Costin.</span>
                   </div>
                   <div className="flex gap-2 justify-end">
                     <button
@@ -900,15 +939,15 @@ export default function App() {
                           setShowAdminPasswordPrompt(false);
                           setAdminPasswordInput('');
                         }}
-                        className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl"
+                        className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold rounded-xl transition-colors"
                     >
-                      Cancel Access
+                      Cancel
                     </button>
                     <button
                         onClick={verifyAdminPassword}
-                        className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold rounded-xl"
+                        className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl transition-colors shadow-sm"
                     >
-                      Verify Key
+                      Unlock Admin
                     </button>
                   </div>
                 </div>
@@ -917,32 +956,32 @@ export default function App() {
 
           {/* CUSTOM SECURE REMOVE USER CONFIRMATION MODAL */}
           {userToDelete && (
-              <div className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4">
-                <div className="bg-slate-900 border-2 border-red-500/30 rounded-3xl max-w-md w-full p-6 shadow-2xl relative">
-                  <div className="p-3 bg-red-500/10 rounded-2xl max-w-max text-red-500 mb-4">
-                    <Trash2 className="w-6 h-6" />
+              <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+                <div className="bg-white border border-slate-200 rounded-3xl max-w-md w-full p-6 shadow-2xl relative">
+                  <div className="p-3 bg-red-50 text-red-600 rounded-2xl max-w-max mb-4">
+                    <Trash2 className="w-6 h-6 text-red-650" />
                   </div>
 
-                  <h3 className="font-extrabold text-lg text-slate-100">Remove Pool Entry?</h3>
-                  <p className="text-xs text-slate-400 mt-2 leading-relaxed">
-                    Are you absolutely sure you want to permanently delete teammate <strong className="text-red-400 font-bold">{userToDelete.name}</strong> (<code className="text-[11px] font-mono text-slate-300">{userToDelete.email}</code>) from the active pool?
+                  <h3 className="font-extrabold text-lg text-slate-950">Remove Pool Entry?</h3>
+                  <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                    Are you absolutely sure you want to permanently delete competitor <strong className="text-red-600 font-bold">{userToDelete.name}</strong> (<code className="text-[11px] font-mono text-slate-600 bg-slate-50 px-1 py-0.5 rounded">{userToDelete.email}</code>)?
                   </p>
-                  <p className="text-[10px] text-slate-500 mt-2 leading-normal">
-                    ⚠️ This will instantly purge all of their 33 match scoreline predictions. This action is irreversible.
+                  <p className="text-[10px] text-slate-400 mt-2 leading-normal">
+                    ⚠️ This will instantly purge all of their scoreline predictions. This action is irreversible.
                   </p>
 
                   <div className="flex gap-2.5 mt-6">
                     <button
                         onClick={() => setUserToDelete(null)}
-                        className="bg-slate-800 hover:bg-slate-700 text-xs font-bold py-3 text-slate-300 rounded-xl w-full"
+                        className="bg-slate-100 hover:bg-slate-200 text-xs font-bold py-3 text-slate-600 rounded-xl w-full transition-colors"
                     >
-                      Keep Competitor
+                      Keep Profile
                     </button>
                     <button
                         onClick={handleExecuteDeleteUser}
-                        className="bg-red-600 hover:bg-red-500 text-slate-100 font-extrabold text-xs py-3 rounded-xl w-full text-center"
+                        className="bg-red-600 hover:bg-red-700 text-white font-extrabold text-xs py-3 rounded-xl w-full text-center transition-colors shadow-sm"
                     >
-                      Yes, Remove User
+                      Yes, Delete Teammate
                     </button>
                   </div>
                 </div>
@@ -951,12 +990,12 @@ export default function App() {
 
           {/* Dynamic Warning for Admin actions */}
           {isAdminMode && (
-              <div className="bg-amber-950/20 border border-amber-800/60 p-4 rounded-xl flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
-                <div className="text-xs text-amber-300">
+              <div className="bg-amber-50 border border-amber-200 p-4 rounded-xl flex items-start gap-3 shadow-xs">
+                <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                <div className="text-xs text-amber-800">
                   <p className="font-bold uppercase tracking-wider">Verified Administrator Mode is Active</p>
                   <p className="mt-1">
-                    You are currently setting the <strong>Actual Matches results</strong>. Any score you change below will immediately become the official score, recalculating everyone's leaderboard points in real-time. Use this to simulate real world matches!
+                    You are currently setting the **Actual World Cup match scorelines**. Any score changed in the console below will dynamically recalculate the competitor rankings on the Standings Board.
                   </p>
                 </div>
               </div>
@@ -964,66 +1003,62 @@ export default function App() {
 
           {/* REGISTER & ONBOARDING SYSTEM */}
           {friendsList.length === 0 ? (
-              <div className="bg-gradient-to-tr from-slate-900 to-slate-950 border border-slate-800 rounded-3xl p-8 max-w-xl mx-auto w-full text-center shadow-xl my-6">
-                <div className="p-4 bg-emerald-500/10 rounded-2xl max-w-max mx-auto text-emerald-400 mb-6">
-                  <Trophy className="w-10 h-10" />
+              <div className="bg-white border border-slate-200 rounded-3xl p-8 max-w-xl mx-auto w-full text-center shadow-md my-6">
+                <div className="p-4 bg-emerald-50 text-emerald-600 rounded-2xl max-w-max mx-auto mb-6 shadow-xs">
+                  <Trophy className="w-10 h-10 text-emerald-605" />
                 </div>
 
-                <h2 className="text-2xl font-black bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-300 bg-clip-text text-transparent tracking-tight">
+                <h2 className="text-2xl font-black text-slate-900 tracking-tight">
                   Initialize WC 2026 Pool
                 </h2>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">
-                  Welcome to the World Cup simulator dashboard! The pool has been initialized clean. Be the first to join by registering your prediction profile below.
+                <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                  Welcome to the World Cup prediction simulator! Start by registering your prediction profile below.
                 </p>
 
                 <form onSubmit={handleRegisterSubmit} className="mt-6 text-left flex flex-col gap-4">
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">Your Full Name</label>
+                    <label className="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">Your Full Name</label>
                     <input
                         type="text"
                         placeholder="e.g. Costin or Daniel"
                         value={regName}
                         onChange={(e) => setRegName(e.target.value)}
-                        className="bg-slate-950 border border-slate-800 text-sm rounded-xl px-4 py-3 text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 w-full"
+                        className="bg-slate-50 border border-slate-200 text-sm rounded-xl px-4 py-3 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 w-full"
                     />
                   </div>
 
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">Email Address</label>
+                    <label className="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">Email Address</label>
                     <input
                         type="email"
                         placeholder="name@domain.com"
                         value={regEmail}
                         onChange={(e) => setRegEmail(e.target.value)}
-                        className="bg-slate-950 border border-slate-800 text-sm rounded-xl px-4 py-3 text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 w-full"
+                        className="bg-slate-50 border border-slate-200 text-sm rounded-xl px-4 py-3 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 w-full"
                     />
                   </div>
 
                   <button
                       type="submit"
-                      className="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-black text-sm py-3.5 rounded-xl w-full flex items-center justify-center gap-2 mt-2 transition-all shadow-lg shadow-emerald-900/20"
+                      className="bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm py-3.5 rounded-xl w-full flex items-center justify-center gap-2 mt-2 transition-all shadow-sm"
                   >
-                    <LogIn className="w-4 h-4 text-slate-950" />
+                    <LogIn className="w-4 h-4 text-white" />
                     <span>Register Predictor Entry</span>
                   </button>
                 </form>
-
-                <div className="mt-4 text-[10px] text-slate-500 leading-normal">
-                  🔒 After registration, you will receive an activation code simulated to your email to confirm the entry.
-                </div>
               </div>
           ) : (
               /* MAIN SITE CONTENT */
               <>
 
                 {/* NEW MEMBER SIGNUP PANEL */}
-                <section className="bg-slate-900/60 border border-slate-800 p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-5">
+                <section className="bg-white border border-slate-200 p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-xs">
                   <div className="flex-1">
-                    <h2 className="text-sm font-extrabold text-slate-200 flex items-center gap-2">
-                      <UserPlus className="w-5 h-5 text-emerald-400" />
+                    <h2 className="text-sm font-extrabold text-slate-800 flex items-center gap-2">
+                      <UserPlus className="w-5 h-5 text-emerald-600" />
                       Add Friend Predictor Profile
                     </h2>
-                    <p className="text-xs text-slate-400 mt-1 max-w-2xl">
+                    <p className="text-xs text-slate-500 mt-1 max-w-2xl">
                       Allow your friends to join the pool. Once registered, they must activate their entry with the code generated in the simulated inbox.
                     </p>
                   </div>
@@ -1034,18 +1069,18 @@ export default function App() {
                         placeholder="Friend's Name..."
                         value={regName}
                         onChange={(e) => setRegName(e.target.value)}
-                        className="bg-slate-950 border border-slate-800 text-xs rounded-xl px-3 py-2 w-full sm:w-40 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        className="bg-slate-50 border border-slate-200 text-xs rounded-xl px-3 py-2 w-full sm:w-40 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                     />
                     <input
                         type="email"
                         placeholder="Friend's Email..."
                         value={regEmail}
                         onChange={(e) => setRegEmail(e.target.value)}
-                        className="bg-slate-950 border border-slate-800 text-xs rounded-xl px-3 py-2 w-full sm:w-44 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        className="bg-slate-50 border border-slate-200 text-xs rounded-xl px-3 py-2 w-full sm:w-44 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                     />
                     <button
                         type="submit"
-                        className="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-xl flex items-center gap-1 shrink-0 transition-all shadow-md shadow-emerald-500/5"
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs px-4 py-2 rounded-xl flex items-center gap-1 shrink-0 transition-all shadow-xs"
                     >
                       <span>Sign Up</span>
                     </button>
@@ -1053,40 +1088,40 @@ export default function App() {
                 </section>
 
                 {/* TAB SYSTEM NAVIGATION */}
-                <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4 border-b border-slate-800 pb-2">
+                <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4 border-b border-slate-200 pb-2">
 
-                  <div className="flex bg-slate-900 p-1 rounded-xl border border-slate-800 max-w-max self-start">
+                  <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200 max-w-max self-start shadow-inner">
                     <button
                         onClick={() => setActiveTab('predictions')}
                         className={`flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all ${
                             activeTab === 'predictions'
-                                ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow'
-                                : 'text-slate-400 hover:text-slate-200'
+                                ? 'bg-white text-emerald-700 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-800'
                         }`}
                     >
-                      <Compass className="w-4 h-4" />
+                      <Compass className="w-4 h-4 text-emerald-650" />
                       Prediction Center
                     </button>
                     <button
                         onClick={() => setActiveTab('leaderboard')}
                         className={`flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all ${
                             activeTab === 'leaderboard'
-                                ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow'
-                                : 'text-slate-400 hover:text-slate-200'
+                                ? 'bg-white text-emerald-700 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-800'
                         }`}
                     >
-                      <Award className="w-4 h-4" />
+                      <Award className="w-4 h-4 text-amber-500" />
                       Live Leaderboard
                     </button>
                     <button
                         onClick={() => setActiveTab('bracket')}
                         className={`flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg transition-all ${
                             activeTab === 'bracket'
-                                ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow'
-                                : 'text-slate-400 hover:text-slate-200'
+                                ? 'bg-white text-emerald-700 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-800'
                         }`}
                     >
-                      <Trophy className="w-4 h-4" />
+                      <Trophy className="w-4 h-4 text-emerald-605" />
                       Playoffs Bracket
                     </button>
                   </div>
@@ -1097,7 +1132,7 @@ export default function App() {
                         <select
                             value={groupFilter}
                             onChange={(e) => setGroupFilter(e.target.value)}
-                            className="bg-slate-900 border border-slate-800 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                            className="bg-white border border-slate-200 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                         >
                           <option value="All">All Stages Combined</option>
                           <option value="group_A">Group A Matches</option>
@@ -1118,7 +1153,7 @@ export default function App() {
                         <button
                             onClick={handleRandomizeCurrentPredictions}
                             title="Automatically fill in random predictions"
-                            className="p-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-lg flex items-center gap-1.5 text-xs font-semibold transition-colors shrink-0"
+                            className="p-1.5 bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 rounded-lg flex items-center gap-1.5 text-xs font-semibold transition-colors shrink-0"
                         >
                           <Shuffle className="w-3.5 h-3.5" />
                           <span>Quick Autocomplete</span>
@@ -1132,28 +1167,28 @@ export default function App() {
                     <div className="flex flex-col gap-6">
 
                       {/* Info Guide Sheet */}
-                      <section className="bg-slate-900/40 border border-slate-800/80 p-4 rounded-xl flex items-start gap-3">
-                        <Info className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                        <div className="text-xs text-slate-300">
-                          <span className="font-bold text-slate-100 block">🏆 Scoring System Cheat-Sheet:</span>
+                      <section className="bg-white border border-slate-200 p-4 rounded-xl flex items-start gap-3 shadow-xs">
+                        <Info className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                        <div className="text-xs text-slate-600 font-medium">
+                          <span className="font-bold text-slate-800 block">🏆 Scoring System Cheat-Sheet:</span>
                           <span className="mt-1 block leading-relaxed">
-                      Earn <strong className="text-amber-400">7 pts</strong> for an exact score match (e.g., predicted 2-1, final 2-1).
-                      Earn <strong className="text-emerald-400">4 pts</strong> for correct outcome and correct goal difference (e.g. predicted 3-1, final 2-0).
-                      Earn <strong className="text-teal-400">3 pts</strong> for guessing just the winner or draw.
-                      Earn <strong className="text-indigo-400">1 pt</strong> bonus if you get one team score right but fail the outcome!
+                      Earn **7 pts** for an exact score match (e.g., predicted 2-1, final 2-1).
+                      Earn **4 pts** for correct outcome and correct goal difference (e.g. predicted 3-1, final 2-0).
+                      Earn **3 pts** for guessing just the winner or draw.
+                      Earn **1 pt** bonus if you get one team score right but fail the outcome!
                     </span>
                         </div>
                       </section>
 
                       {/* Selected active user dashboard detail with URL packing / sharing capability */}
                       {selectedFriend ? (
-                          <div className="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex flex-col gap-4">
+                          <div className="bg-white border border-slate-200 p-5 rounded-2xl flex flex-col gap-4 shadow-xs">
 
                             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                               <div>
-                                <span className="text-xs text-emerald-400 font-extrabold uppercase tracking-wider block">Active Pool Entry</span>
-                                <h3 className="text-lg font-black text-slate-100">
-                                  {selectedFriend.name}'s Simulator Board
+                                <span className="text-xs text-emerald-600 font-extrabold uppercase tracking-wider block">Active Pool Entry</span>
+                                <h3 className="text-lg font-black text-slate-900">
+                                  {selectedFriend.name}'s Board
                                 </h3>
                                 <p className="text-xs text-slate-500 mt-0.5">{selectedFriend.email}</p>
                               </div>
@@ -1162,16 +1197,16 @@ export default function App() {
                                 {/* URL PACK SHARE BUTTONS */}
                                 <button
                                     onClick={() => handleCopyText(activeUserShareLink, "Copy Packed Invitation Link! Share it with friends.")}
-                                    className="bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 font-extrabold text-xs px-3.5 py-2 rounded-xl flex items-center gap-2 transition-all"
+                                    className="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 font-extrabold text-xs px-3.5 py-2 rounded-xl flex items-center gap-2 transition-all shadow-xs"
                                     title="Generates a customized browser link containing all your current scoreline predictions inside the URL itself!"
                                 >
-                                  <Share2 className="w-4 h-4" />
+                                  <Share2 className="w-4 h-4 text-emerald-500" />
                                   <span>Copy Invite Link (URL Packing)</span>
                                 </button>
 
                                 <button
                                     onClick={() => setShowManualImportField(!showManualImportField)}
-                                    className="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-extrabold text-xs px-3.5 py-2 rounded-xl flex items-center gap-2 transition-all"
+                                    className="bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 font-extrabold text-xs px-3.5 py-2 rounded-xl flex items-center gap-2 transition-all shadow-xs"
                                 >
                                   <FileUp className="w-4 h-4" />
                                   <span>Import Share Code</span>
@@ -1181,7 +1216,7 @@ export default function App() {
 
                             {/* Manual Import State */}
                             {showManualImportField && (
-                                <form onSubmit={handleManualShareCodeImport} className="bg-slate-950 border border-slate-800 p-4 rounded-xl flex flex-col gap-2.5 animate-fade-in">
+                                <form onSubmit={handleManualShareCodeImport} className="bg-slate-50 border border-slate-200 p-4 rounded-xl flex flex-col gap-2.5 animate-fade-in shadow-inner">
                                   <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Paste Friend's Packed Base64 Hash</label>
                                   <div className="flex gap-2">
                                     <input
@@ -1189,11 +1224,11 @@ export default function App() {
                                         placeholder="Paste share code string here..."
                                         value={manualShareCode}
                                         onChange={(e) => setManualShareCode(e.target.value)}
-                                        className="bg-slate-900 border border-slate-800 text-xs text-slate-200 px-3.5 py-2 rounded-lg flex-1 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                                        className="bg-white border border-slate-200 text-xs text-slate-800 px-3.5 py-2 rounded-lg flex-1 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                                     />
                                     <button
                                         type="submit"
-                                        className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-lg transition-colors"
+                                        className="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs px-4 py-2 rounded-lg transition-colors shadow-sm"
                                     >
                                       Unpack & Load
                                     </button>
@@ -1201,20 +1236,20 @@ export default function App() {
                                 </form>
                             )}
 
-                            <div className="bg-slate-950 p-3 rounded-xl border border-slate-850 flex flex-wrap gap-4 items-center justify-between text-xs text-slate-400">
+                            <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 flex flex-wrap gap-4 items-center justify-between text-xs text-slate-500 shadow-inner">
                               <div>
                                 <span>Current scoreline progress: </span>
-                                <strong className="text-emerald-400">{Object.keys(selectedFriend.predictions).length} / 33 matches predicted</strong>
+                                <strong className="text-emerald-700 font-extrabold">{Object.keys(selectedFriend.predictions).length} / 33 matches predicted</strong>
                               </div>
                               <div className="flex items-center gap-2">
-                                <span className="text-slate-500">Your Packed Raw Hash:</span>
-                                <code className="bg-slate-900 text-amber-400 px-2 py-0.5 rounded font-mono truncate max-w-[200px]" title={activeUserShareCode}>
+                                <span className="text-slate-400">Your Packed Raw Hash:</span>
+                                <code className="bg-white text-amber-700 px-2 py-0.5 rounded font-mono truncate max-w-[200px]" title={activeUserShareCode}>
                                   {activeUserShareCode || 'None'}
                                 </code>
                                 {activeUserShareCode && (
                                     <button
                                         onClick={() => handleCopyText(activeUserShareCode, "Share code copied!")}
-                                        className="text-slate-300 hover:text-slate-100"
+                                        className="text-slate-500 hover:text-slate-800 transition-colors"
                                     >
                                       <Copy className="w-3.5 h-3.5" />
                                     </button>
@@ -1224,7 +1259,7 @@ export default function App() {
 
                           </div>
                       ) : (
-                          <div className="bg-amber-950/20 border border-amber-800/40 p-4 rounded-xl text-xs text-amber-300">
+                          <div className="bg-amber-50 border border-amber-200 p-4 rounded-xl text-xs text-amber-800 shadow-xs">
                             No active user selected! Create a profile above or choose one from the selector header.
                           </div>
                       )}
@@ -1249,21 +1284,21 @@ export default function App() {
                               return (
                                   <div
                                       key={match.id}
-                                      className="bg-slate-900/50 border border-slate-800 rounded-2xl hover:border-slate-750 transition-all flex flex-col overflow-hidden"
+                                      className="bg-white border border-slate-200 rounded-2xl hover:border-slate-300 transition-all flex flex-col overflow-hidden shadow-xs"
                                   >
-                                    <div className="px-4 py-2.5 bg-slate-950 border-b border-slate-800 flex items-center justify-between text-xs">
-                            <span className="font-semibold text-slate-400 flex items-center gap-1.5">
+                                    <div className="px-4 py-2.5 bg-slate-50 border-b border-slate-100 flex items-center justify-between text-xs">
+                            <span className="font-semibold text-slate-500 flex items-center gap-1.5">
                               {match.stage === 'group' ? (
-                                  <span className="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded-full font-bold">
+                                  <span className="px-2 py-0.5 bg-emerald-50 text-emerald-600 rounded-full font-bold border border-emerald-100">
                                   Group {match.group}
                                 </span>
                               ) : (
-                                  <span className="px-2 py-0.5 bg-amber-500/10 text-amber-400 rounded-full font-bold uppercase">
+                                  <span className="px-2 py-0.5 bg-amber-50 text-amber-700 rounded-full font-bold uppercase border border-amber-100">
                                   {match.stage.toUpperCase()}
                                 </span>
                               )}
                             </span>
-                                      <span className="text-slate-500 flex items-center gap-1">
+                                      <span className="text-slate-400 flex items-center gap-1">
                               <Clock className="w-3.5 h-3.5" />
                                         {match.date}
                             </span>
@@ -1273,8 +1308,8 @@ export default function App() {
 
                                       {/* Team A Line */}
                                       <div className="flex items-center justify-between gap-3">
-                                        <div className="flex items-center gap-2 font-bold text-slate-200">
-                                          <span className="text-2xl">{getFlag(match.stage === 'group' ? match.home : match.defaultHome)}</span>
+                                        <div className="flex items-center gap-2 font-bold text-slate-800">
+                                          <Flag team={match.stage === 'group' ? match.home : match.defaultHome} />
                                           <span className="text-xs truncate max-w-[140px]">
                                   {match.stage === 'group' ? match.home : match.defaultHome}
                                 </span>
@@ -1288,11 +1323,11 @@ export default function App() {
                                               value={prediction.home === undefined ? '' : prediction.home}
                                               onChange={(e) => savePrediction(match.id, 'home', e.target.value)}
                                               disabled={isAdminMode || !selectedFriendId}
-                                              className="w-12 h-9 text-center font-extrabold bg-slate-950 border border-slate-800 text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 disabled:opacity-40"
+                                              className="w-12 h-9 text-center font-extrabold bg-slate-50 border border-slate-200 text-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 disabled:opacity-40 shadow-inner"
                                           />
 
                                           {actual.finished && (
-                                              <div className="w-8 h-8 flex items-center justify-center bg-slate-800 border border-slate-700 text-amber-400 font-extrabold text-xs rounded-lg">
+                                              <div className="w-8 h-8 flex items-center justify-center bg-slate-100 border border-slate-200 text-amber-600 font-extrabold text-xs rounded-lg shadow-sm">
                                                 {actual.home}
                                               </div>
                                           )}
@@ -1301,8 +1336,8 @@ export default function App() {
 
                                       {/* Team B Line */}
                                       <div className="flex items-center justify-between gap-3">
-                                        <div className="flex items-center gap-2 font-bold text-slate-200">
-                                          <span className="text-2xl">{getFlag(match.stage === 'group' ? match.away : match.defaultAway)}</span>
+                                        <div className="flex items-center gap-2 font-bold text-slate-800">
+                                          <Flag team={match.stage === 'group' ? match.away : match.defaultAway} />
                                           <span className="text-xs truncate max-w-[140px]">
                                   {match.stage === 'group' ? match.away : match.defaultAway}
                                 </span>
@@ -1316,11 +1351,11 @@ export default function App() {
                                               value={prediction.away === undefined ? '' : prediction.away}
                                               onChange={(e) => savePrediction(match.id, 'away', e.target.value)}
                                               disabled={isAdminMode || !selectedFriendId}
-                                              className="w-12 h-9 text-center font-extrabold bg-slate-950 border border-slate-800 text-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 disabled:opacity-40"
+                                              className="w-12 h-9 text-center font-extrabold bg-slate-50 border border-slate-200 text-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 disabled:opacity-40 shadow-inner"
                                           />
 
                                           {actual.finished && (
-                                              <div className="w-8 h-8 flex items-center justify-center bg-slate-800 border border-slate-700 text-amber-400 font-extrabold text-xs rounded-lg">
+                                              <div className="w-8 h-8 flex items-center justify-center bg-slate-100 border border-slate-200 text-amber-600 font-extrabold text-xs rounded-lg shadow-sm">
                                                 {actual.away}
                                               </div>
                                           )}
@@ -1329,14 +1364,14 @@ export default function App() {
 
                                     </div>
 
-                                    <div className="px-4 py-2.5 bg-slate-950/40 border-t border-slate-850 flex items-center justify-between">
-                            <span className="text-[10px] text-slate-500">
+                                    <div className="px-4 py-2.5 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between">
+                            <span className="text-[10px] text-slate-400">
                               {actual.finished ? (
-                                  <span className="text-amber-500 font-bold flex items-center gap-1">
+                                  <span className="text-amber-600 font-bold flex items-center gap-1">
                                   <Check className="w-3.5 h-3.5" /> Result Settled
                                 </span>
                               ) : (
-                                  <span className="text-slate-500 flex items-center gap-1">
+                                  <span className="text-slate-400 flex items-center gap-1">
                                   <Unlock className="w-3.5 h-3.5" /> Predictions open
                                 </span>
                               )}
@@ -1344,11 +1379,11 @@ export default function App() {
 
                                       {actual.finished && (
                                           <div className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${
-                                              scoreDetails.points === 7 ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' :
-                                                  scoreDetails.points === 4 ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' :
-                                                      scoreDetails.points === 3 ? 'bg-teal-500/20 text-teal-400 border border-teal-500/30' :
-                                                          scoreDetails.points === 1 ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' :
-                                                              'bg-slate-800 text-slate-505'
+                                              scoreDetails.points === 7 ? 'bg-amber-100 text-amber-800 border border-amber-200' :
+                                                  scoreDetails.points === 4 ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' :
+                                                      scoreDetails.points === 3 ? 'bg-teal-100 text-teal-800 border border-teal-200' :
+                                                          scoreDetails.points === 1 ? 'bg-blue-100 text-blue-800 border border-blue-200' :
+                                                              'bg-slate-100 text-slate-400'
                                           }`}>
                                             {scoreDetails.reason}
                                           </div>
@@ -1367,27 +1402,27 @@ export default function App() {
                 {activeTab === 'leaderboard' && (
                     <div className="flex flex-col gap-6">
 
-                      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+                      <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
 
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                           <div>
-                            <h3 className="text-lg font-bold text-slate-200 flex items-center gap-2">
-                              <Award className="w-5 h-5 text-amber-400" />
+                            <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+                              <Award className="w-5 h-5 text-amber-500" />
                               Pool Standings
                             </h3>
-                            <p className="text-xs text-slate-400 mt-1">Standings scoreline determined using actual locked outcomes and our fair scoring multipliers.</p>
+                            <p className="text-xs text-slate-500 mt-1">Standings scoreline determined using actual locked outcomes and our fair scoring multipliers.</p>
                           </div>
 
-                          <div className="flex items-center gap-2 bg-slate-950 p-2 rounded-xl border border-slate-800 text-xs">
+                          <div className="flex items-center gap-2 bg-slate-50 p-2 rounded-xl border border-slate-200 text-xs">
                             <span className="text-slate-400">Total participants:</span>
-                            <strong className="text-emerald-400">{friendsWithScoredPoints.length}</strong>
+                            <strong className="text-emerald-700 font-extrabold">{friendsWithScoredPoints.length}</strong>
                           </div>
                         </div>
 
                         <div className="overflow-x-auto">
                           <table className="w-full text-left border-collapse">
                             <thead>
-                            <tr className="border-b border-slate-800 text-xs text-slate-400 font-bold uppercase">
+                            <tr className="border-b border-slate-200 text-xs text-slate-400 font-bold uppercase">
                               <th className="py-3 px-4 w-16">Rank</th>
                               <th className="py-3 px-4">Friend</th>
                               <th className="py-3 px-4 text-center">Exact (7pts)</th>
@@ -1404,27 +1439,27 @@ export default function App() {
                               return (
                                   <tr
                                       key={friend.id}
-                                      className={`border-b border-slate-800 hover:bg-slate-800/30 transition-colors ${
-                                          isCurrentUser ? 'bg-emerald-950/10' : ''
+                                      className={`border-b border-slate-100 hover:bg-slate-50/50 transition-colors ${
+                                          isCurrentUser ? 'bg-emerald-50/30' : ''
                                       }`}
                                   >
                                     <td className="py-4 px-4 font-bold">
                                       {index === 0 ? (
-                                          <span className="w-7 h-7 bg-amber-500 text-slate-950 flex items-center justify-center rounded-lg text-sm font-extrabold">🥇</span>
+                                          <span className="w-7 h-7 bg-amber-100 border border-amber-200 text-amber-800 flex items-center justify-center rounded-lg text-sm font-extrabold shadow-xs">🥇</span>
                                       ) : index === 1 ? (
-                                          <span className="w-7 h-7 bg-slate-300 text-slate-950 flex items-center justify-center rounded-lg text-sm font-extrabold">🥈</span>
+                                          <span className="w-7 h-7 bg-slate-100 border border-slate-200 text-slate-800 flex items-center justify-center rounded-lg text-sm font-extrabold shadow-xs">🥈</span>
                                       ) : index === 2 ? (
-                                          <span className="w-7 h-7 bg-amber-700 text-slate-950 flex items-center justify-center rounded-lg text-sm font-extrabold">🥉</span>
+                                          <span className="w-7 h-7 bg-amber-50 border border-amber-100 text-amber-900 flex items-center justify-center rounded-lg text-sm font-extrabold shadow-xs">🥉</span>
                                       ) : (
                                           <span className="text-slate-500 pl-2">{index + 1}</span>
                                       )}
                                     </td>
                                     <td className="py-4 px-4 font-bold">
                                       <div className="flex flex-col">
-                                  <span className="text-slate-100 flex items-center gap-1.5 text-sm">
+                                  <span className="text-slate-800 flex items-center gap-1.5 text-sm">
                                     {friend.name}
                                     {friend.name.toLowerCase() === 'costin' && (
-                                        <span className="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.2 rounded font-black uppercase">
+                                        <span className="text-[9px] bg-amber-100 text-amber-800 border border-amber-200 px-1.5 py-0.2 rounded font-black uppercase shadow-xs">
                                         Admin
                                       </span>
                                     )}
@@ -1432,20 +1467,20 @@ export default function App() {
                                         <span className="text-[9px] text-slate-500 font-normal">{friend.email}</span>
                                       </div>
                                     </td>
-                                    <td className="py-4 px-4 text-center text-amber-400 font-bold">
+                                    <td className="py-4 px-4 text-center text-amber-600 font-bold">
                                       {friend.exactMatches || 0}
                                     </td>
-                                    <td className="py-4 px-4 text-center text-emerald-400 font-semibold">
+                                    <td className="py-4 px-4 text-center text-emerald-600 font-semibold">
                                       {friend.gdMatches || 0}
                                     </td>
-                                    <td className="py-4 px-4 text-center text-teal-400">
+                                    <td className="py-4 px-4 text-center text-teal-600">
                                       {friend.outcomeMatches || 0}
                                     </td>
-                                    <td className="py-4 px-4 text-center text-blue-400">
+                                    <td className="py-4 px-4 text-center text-blue-600">
                                       {friend.bonusMatches || 0}
                                     </td>
-                                    <td className="py-4 px-4 text-right font-extrabold text-slate-100 text-sm">
-                                <span className="bg-gradient-to-r from-amber-400 to-emerald-400 bg-clip-text text-transparent">
+                                    <td className="py-4 px-4 text-right font-extrabold text-slate-900 text-sm">
+                                <span className="bg-gradient-to-r from-amber-600 to-emerald-600 bg-clip-text text-transparent">
                                   {friend.totalPoints || 0} pts
                                 </span>
                                     </td>
@@ -1454,10 +1489,10 @@ export default function App() {
                                         <td className="py-4 px-4 text-right">
                                           <button
                                               onClick={() => handleRequestRemoveUser(friend)}
-                                              className="p-1.5 bg-red-950/40 hover:bg-red-900/60 border border-red-800/40 text-red-400 hover:text-red-200 rounded-lg transition-colors inline-flex items-center gap-1 text-[11px]"
+                                              className="p-1.5 bg-red-50 hover:bg-red-100 border border-red-100 text-red-600 rounded-lg transition-colors inline-flex items-center gap-1 text-[11px] font-bold shadow-xs"
                                               title={`Purge user ${friend.name}`}
                                           >
-                                            <Trash2 className="w-3.5 h-3.5" />
+                                            <Trash2 className="w-3.5 h-3.5 text-red-500" />
                                             <span>Remove</span>
                                           </button>
                                         </td>
@@ -1477,11 +1512,11 @@ export default function App() {
                 {/* TAB SECTION: PLAYOFF BRACKET */}
                 {activeTab === 'bracket' && (
                     <div className="flex flex-col gap-6">
-                      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 overflow-x-auto">
+                      <div className="bg-white border border-slate-200 rounded-2xl p-6 overflow-x-auto shadow-xs">
                         <div className="min-w-[900px]">
 
-                          <h3 className="text-lg font-bold text-slate-200 mb-2 flex items-center gap-2">
-                            <Trophy className="w-5 h-5 text-emerald-400" />
+                          <h3 className="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2">
+                            <Trophy className="w-5 h-5 text-emerald-600" />
                             FIFA World Cup 2026 Playoff Path
                           </h3>
                           <p className="text-xs text-slate-400 mb-8">
@@ -1493,25 +1528,25 @@ export default function App() {
 
                             {/* Round of 32 */}
                             <div className="flex flex-col justify-around gap-6">
-                              <div className="text-center font-bold text-xs uppercase text-slate-500 tracking-wider mb-2">Round of 32</div>
+                              <div className="text-center font-bold text-xs uppercase text-slate-400 tracking-wider mb-2">Round of 32</div>
 
                               {knockoutMatches.filter(m => m.stage === 'r32').map(match => (
-                                  <div key={match.id} className="bg-slate-950 border border-slate-800 p-3 rounded-xl shadow-md">
-                                    <div className="text-[9px] text-slate-500 font-bold uppercase mb-1">{match.date}</div>
+                                  <div key={match.id} className="bg-white border border-slate-200 p-3 rounded-xl shadow-xs">
+                                    <div className="text-[9px] text-slate-400 font-bold uppercase mb-1">{match.date}</div>
 
                                     <div className="flex items-center justify-between gap-2 text-xs py-1">
                               <span className="flex items-center gap-1">
-                                <span>{getFlag(match.defaultHome)}</span>
-                                <span className="truncate max-w-[90px] text-slate-300 font-semibold">{match.defaultHome}</span>
+                                <Flag team={match.defaultHome} />
+                                <span className="truncate max-w-[90px] text-slate-700 font-semibold">{match.defaultHome}</span>
                               </span>
-                                      <span className="font-bold text-emerald-400">{realResults[match.id]?.home ?? '-'}</span>
+                                      <span className="font-bold text-emerald-600">{realResults[match.id]?.home ?? '-'}</span>
                                     </div>
-                                    <div className="flex items-center justify-between gap-2 text-xs py-1 border-t border-slate-900">
+                                    <div className="flex items-center justify-between gap-2 text-xs py-1 border-t border-slate-100">
                               <span className="flex items-center gap-1">
-                                <span>{getFlag(match.defaultAway)}</span>
-                                <span className="truncate max-w-[90px] text-slate-300 font-semibold">{match.defaultAway}</span>
+                                <Flag team={match.defaultAway} />
+                                <span className="truncate max-w-[90px] text-slate-700 font-semibold">{match.defaultAway}</span>
                               </span>
-                                      <span className="font-bold text-emerald-400">{realResults[match.id]?.away ?? '-'}</span>
+                                      <span className="font-bold text-emerald-600">{realResults[match.id]?.away ?? '-'}</span>
                                     </div>
                                   </div>
                               ))}
@@ -1519,25 +1554,25 @@ export default function App() {
 
                             {/* Round of 16 */}
                             <div className="flex flex-col justify-around gap-12">
-                              <div className="text-center font-bold text-xs uppercase text-slate-500 tracking-wider mb-2">Round of 16</div>
+                              <div className="text-center font-bold text-xs uppercase text-slate-400 tracking-wider mb-2">Round of 16</div>
 
                               {knockoutMatches.filter(m => m.stage === 'r16').map(match => (
-                                  <div key={match.id} className="bg-slate-950 border border-emerald-500/10 p-3 rounded-xl shadow-md relative">
-                                    <div className="text-[9px] text-emerald-400 font-bold uppercase mb-1">{match.date}</div>
+                                  <div key={match.id} className="bg-white border border-emerald-100 p-3 rounded-xl relative shadow-xs">
+                                    <div className="text-[9px] text-emerald-600 font-bold uppercase mb-1">{match.date}</div>
 
                                     <div className="flex items-center justify-between gap-2 text-xs py-1">
                               <span className="flex items-center gap-1">
-                                <span>{getFlag(match.defaultHome)}</span>
-                                <span className="truncate max-w-[95px] text-slate-300 font-semibold">{match.defaultHome}</span>
+                                <Flag team={match.defaultHome} />
+                                <span className="truncate max-w-[95px] text-slate-700 font-semibold">{match.defaultHome}</span>
                               </span>
-                                      <span className="font-bold text-emerald-400">{realResults[match.id]?.home ?? '-'}</span>
+                                      <span className="font-bold text-emerald-600">{realResults[match.id]?.home ?? '-'}</span>
                                     </div>
-                                    <div className="flex items-center justify-between gap-2 text-xs py-1 border-t border-slate-900">
+                                    <div className="flex items-center justify-between gap-2 text-xs py-1 border-t border-slate-100">
                               <span className="flex items-center gap-1">
-                                <span>{getFlag(match.defaultAway)}</span>
-                                <span className="truncate max-w-[95px] text-slate-300 font-semibold">{match.defaultAway}</span>
+                                <Flag team={match.defaultAway} />
+                                <span className="truncate max-w-[95px] text-slate-700 font-semibold">{match.defaultAway}</span>
                               </span>
-                                      <span className="font-bold text-emerald-400">{realResults[match.id]?.away ?? '-'}</span>
+                                      <span className="font-bold text-emerald-600">{realResults[match.id]?.away ?? '-'}</span>
                                     </div>
                                   </div>
                               ))}
@@ -1546,48 +1581,48 @@ export default function App() {
                             {/* Quarter & Semifinals */}
                             <div className="flex flex-col justify-around gap-20">
                               <div>
-                                <div className="text-center font-bold text-xs uppercase text-slate-500 tracking-wider mb-2">Quarter-Finals</div>
+                                <div className="text-center font-bold text-xs uppercase text-slate-400 tracking-wider mb-2">Quarter-Finals</div>
                                 {knockoutMatches.filter(m => m.stage === 'qf').map(match => (
-                                    <div key={match.id} className="bg-slate-950 border border-slate-800 p-3 rounded-xl shadow-md">
-                                      <div className="text-[9px] text-slate-500 font-bold uppercase mb-1">{match.date}</div>
+                                    <div key={match.id} className="bg-white border border-slate-200 p-3 rounded-xl shadow-xs">
+                                      <div className="text-[9px] text-slate-400 font-bold uppercase mb-1">{match.date}</div>
 
                                       <div className="flex items-center justify-between gap-2 text-xs py-1">
                                 <span className="flex items-center gap-1">
-                                  <span>{getFlag(match.defaultHome)}</span>
-                                  <span className="truncate max-w-[95px] text-slate-300 font-semibold">{match.defaultHome}</span>
+                                  <Flag team={match.defaultHome} />
+                                  <span className="truncate max-w-[95px] text-slate-700 font-semibold">{match.defaultHome}</span>
                                 </span>
-                                        <span className="font-bold text-emerald-400">{realResults[match.id]?.home ?? '-'}</span>
+                                        <span className="font-bold text-emerald-600">{realResults[match.id]?.home ?? '-'}</span>
                                       </div>
-                                      <div className="flex items-center justify-between gap-2 text-xs py-1 border-t border-slate-900">
+                                      <div className="flex items-center justify-between gap-2 text-xs py-1 border-t border-slate-100">
                                 <span className="flex items-center gap-1">
-                                  <span>{getFlag(match.defaultAway)}</span>
-                                  <span className="truncate max-w-[95px] text-slate-300 font-semibold">{match.defaultAway}</span>
+                                  <Flag team={match.defaultAway} />
+                                  <span className="truncate max-w-[95px] text-slate-700 font-semibold">{match.defaultAway}</span>
                                 </span>
-                                        <span className="font-bold text-emerald-400">{realResults[match.id]?.away ?? '-'}</span>
+                                        <span className="font-bold text-emerald-600">{realResults[match.id]?.away ?? '-'}</span>
                                       </div>
                                     </div>
                                 ))}
                               </div>
 
                               <div>
-                                <div className="text-center font-bold text-xs uppercase text-slate-500 tracking-wider mb-2">Semi-Finals</div>
+                                <div className="text-center font-bold text-xs uppercase text-slate-400 tracking-wider mb-2">Semi-Finals</div>
                                 {knockoutMatches.filter(m => m.stage === 'sf').map(match => (
-                                    <div key={match.id} className="bg-slate-950 border border-slate-800 p-3 rounded-xl shadow-md">
-                                      <div className="text-[9px] text-slate-500 font-bold uppercase mb-1">{match.date}</div>
+                                    <div key={match.id} className="bg-white border border-slate-200 p-3 rounded-xl shadow-xs">
+                                      <div className="text-[9px] text-slate-400 font-bold uppercase mb-1">{match.date}</div>
 
                                       <div className="flex items-center justify-between gap-2 text-xs py-1">
                                 <span className="flex items-center gap-1">
-                                  <span>{getFlag(match.defaultHome)}</span>
-                                  <span className="truncate max-w-[95px] text-slate-300 font-semibold">{match.defaultHome}</span>
+                                  <Flag team={match.defaultHome} />
+                                  <span className="truncate max-w-[95px] text-slate-700 font-semibold">{match.defaultHome}</span>
                                 </span>
-                                        <span className="font-bold text-emerald-400">{realResults[match.id]?.home ?? '-'}</span>
+                                        <span className="font-bold text-emerald-600">{realResults[match.id]?.home ?? '-'}</span>
                                       </div>
-                                      <div className="flex items-center justify-between gap-2 text-xs py-1 border-t border-slate-900">
+                                      <div className="flex items-center justify-between gap-2 text-xs py-1 border-t border-slate-100">
                                 <span className="flex items-center gap-1">
-                                  <span>{getFlag(match.defaultAway)}</span>
-                                  <span className="truncate max-w-[95px] text-slate-300 font-semibold">{match.defaultAway}</span>
+                                  <Flag team={match.defaultAway} />
+                                  <span className="truncate max-w-[95px] text-slate-700 font-semibold">{match.defaultAway}</span>
                                 </span>
-                                        <span className="font-bold text-emerald-400">{realResults[match.id]?.away ?? '-'}</span>
+                                        <span className="font-bold text-emerald-600">{realResults[match.id]?.away ?? '-'}</span>
                                       </div>
                                     </div>
                                 ))}
@@ -1596,35 +1631,35 @@ export default function App() {
 
                             {/* Grande Final */}
                             <div className="flex flex-col justify-center gap-4">
-                              <div className="text-center font-bold text-xs uppercase text-amber-400 tracking-wider mb-2 flex items-center justify-center gap-1">
-                                <Trophy className="w-3.5 h-3.5 text-amber-400" />
+                              <div className="text-center font-bold text-xs uppercase text-amber-600 tracking-wider mb-2 flex items-center justify-center gap-1">
+                                <Trophy className="w-3.5 h-3.5 text-amber-500" />
                                 World Cup Final
                               </div>
 
                               {knockoutMatches.filter(m => m.stage === 'final').map(match => (
-                                  <div key={match.id} className="bg-slate-950 border-2 border-amber-500 p-4 rounded-2xl shadow-xl shadow-amber-500/5">
-                                    <div className="text-[10px] text-amber-400 font-bold uppercase mb-2 text-center">{match.date} - MetLife Stadium</div>
+                                  <div key={match.id} className="bg-white border-2 border-amber-400 p-4 rounded-2xl shadow-md">
+                                    <div className="text-[10px] text-amber-600 font-bold uppercase mb-2 text-center">{match.date} - MetLife Stadium</div>
 
                                     <div className="flex flex-col gap-3 p-1">
                                       <div className="flex items-center justify-between">
-                                <span className="flex items-center gap-2 font-bold text-xs text-slate-100">
-                                  <span>{getFlag(match.defaultHome)}</span>
+                                <span className="flex items-center gap-2 font-bold text-xs text-slate-800">
+                                  <Flag team={match.defaultHome} />
                                   <span>{match.defaultHome}</span>
                                 </span>
-                                        <span className="font-extrabold text-amber-400 text-md">{realResults[match.id]?.home ?? '-'}</span>
+                                        <span className="font-extrabold text-amber-500 text-sm">{realResults[match.id]?.home ?? '-'}</span>
                                       </div>
 
-                                      <div className="flex items-center justify-between border-t border-slate-900 pt-3">
-                                <span className="flex items-center gap-2 font-bold text-xs text-slate-100">
-                                  <span>{getFlag(match.defaultAway)}</span>
+                                      <div className="flex items-center justify-between border-t border-slate-100 pt-3">
+                                <span className="flex items-center gap-2 font-bold text-xs text-slate-800">
+                                  <Flag team={match.defaultAway} />
                                   <span>{match.defaultAway}</span>
                                 </span>
-                                        <span className="font-extrabold text-amber-400 text-md">{realResults[match.id]?.away ?? '-'}</span>
+                                        <span className="font-extrabold text-amber-400 text-sm">{realResults[match.id]?.away ?? '-'}</span>
                                       </div>
                                     </div>
 
                                     <div className="mt-4 text-center">
-                              <span className="text-[10px] bg-amber-500/10 text-amber-300 px-3 py-1 rounded-full font-bold">
+                              <span className="text-[10px] bg-amber-50 text-amber-700 border border-amber-205 px-3 py-1 rounded-full font-bold">
                                 Championship Match
                               </span>
                                     </div>
@@ -1641,15 +1676,15 @@ export default function App() {
 
                 {/* TAB SECTION: VERIFIED MASTER ADMIN CONTROLS */}
                 {isAdminMode && (
-                    <div className="bg-slate-900 border border-amber-500/20 p-6 rounded-2xl flex flex-col gap-6">
+                    <div className="bg-white border border-slate-200 p-6 rounded-2xl flex flex-col gap-6 shadow-xs">
 
                       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <div>
-                          <h3 className="text-md font-bold text-amber-400 flex items-center gap-2">
-                            <Settings className="w-5 h-5" />
+                          <h3 className="text-md font-bold text-slate-900 flex items-center gap-2">
+                            <Settings className="w-5 h-5 text-slate-400" />
                             Costin's Results Master Console
                           </h3>
-                          <p className="text-xs text-slate-400 mt-1">
+                          <p className="text-xs text-slate-500 mt-1">
                             Set actual finished match scores below. Everyone's scoreboard points will instantly update according to predictions.
                           </p>
                         </div>
@@ -1657,18 +1692,18 @@ export default function App() {
                         <div className="flex flex-wrap gap-2">
                           <button
                               onClick={handleSimulateGroupOutcomes}
-                              className="bg-amber-500 text-slate-950 font-extrabold text-xs px-4 py-2.5 rounded-xl hover:bg-amber-400 transition-colors flex items-center gap-1.5"
+                              className="bg-amber-500 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl hover:bg-amber-600 transition-colors flex items-center gap-1.5 shadow-xs"
                           >
-                            <Shuffle className="w-4 h-4 text-slate-950" />
+                            <Shuffle className="w-4 h-4 text-white" />
                             Simulate Random Match Scores
                           </button>
                           <button
                               onClick={() => {
                                 setRealResults({});
-                                if (dbStatus !== 'online') localStorage.removeItem('wc_real_scores');
+                                localStorage.removeItem('wc_real_scores');
                                 triggerNotification("All settled match outcomes cleared!", "info");
                               }}
-                              className="bg-slate-800 hover:bg-slate-700 text-xs font-bold px-4 py-2.5 rounded-xl border border-slate-700 text-slate-300 transition-colors"
+                              className="bg-slate-100 hover:bg-slate-200 text-xs font-bold px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 transition-colors shadow-xs"
                           >
                             Reset Scorelines
                           </button>
@@ -1676,24 +1711,24 @@ export default function App() {
                       </div>
 
                       {/* USER REMOVAL LIST IN MASTER CONSOLE FOR EASIER POOL CLEANUP */}
-                      <div className="bg-slate-950 border border-slate-800 p-4 rounded-xl">
-                        <h4 className="text-xs font-bold text-slate-300 mb-3 uppercase tracking-wider">Quick Teammate Pool Management (Costin-Only)</h4>
+                      <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl shadow-inner">
+                        <h4 className="text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider">Quick Teammate Pool Management (Costin-Only)</h4>
                         {friendsList.length === 0 ? (
-                            <span className="text-xs text-slate-500">No registered competitors in the pool.</span>
+                            <span className="text-xs text-slate-400">No registered competitors in the pool.</span>
                         ) : (
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                               {friendsList.map(f => (
-                                  <div key={f.id} className="bg-slate-900 border border-slate-800 p-3 rounded-lg flex items-center justify-between">
+                                  <div key={f.id} className="bg-white border border-slate-200 p-3 rounded-xl flex items-center justify-between shadow-xs">
                                     <div className="truncate pr-2">
-                                      <span className="text-xs font-bold block truncate text-slate-200">{f.name}</span>
-                                      <span className="text-[10px] text-slate-500 block truncate">{f.email}</span>
+                                      <span className="text-xs font-bold block truncate text-slate-800">{f.name}</span>
+                                      <span className="text-[10px] text-slate-400 block truncate">{f.email}</span>
                                     </div>
                                     <button
                                         onClick={() => handleRequestRemoveUser(f)}
-                                        className="p-1.5 bg-red-950/30 hover:bg-red-900/60 border border-red-800/40 text-red-400 hover:text-red-200 rounded-lg transition-colors inline-flex items-center"
+                                        className="p-1.5 bg-red-50 hover:bg-red-100 border border-red-100 text-red-600 rounded-lg transition-colors inline-flex items-center"
                                         title={`Purge user ${f.name}`}
                                     >
-                                      <Trash2 className="w-3.5 h-3.5" />
+                                      <Trash2 className="w-3.5 h-3.5 text-red-500" />
                                     </button>
                                   </div>
                               ))}
@@ -1701,14 +1736,14 @@ export default function App() {
                         )}
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 border-t border-slate-800 pt-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 border-t border-slate-200 pt-6">
                         {[...groupMatches, ...knockoutMatches].map(match => {
                           const res = realResults[match.id] || { home: '', away: '' };
                           const isKo = match.stage !== 'group';
                           return (
-                              <div key={match.id} className="bg-slate-950 border border-slate-800 p-4 rounded-xl flex flex-col gap-3">
-                                <div className="flex justify-between items-center text-xs text-slate-500">
-                          <span className="font-bold">
+                              <div key={match.id} className="bg-slate-50 border border-slate-200 p-4 rounded-xl flex flex-col gap-3 shadow-inner">
+                                <div className="flex justify-between items-center text-xs text-slate-400 font-bold">
+                          <span>
                             {isKo ? `PLAYOFFS: ${match.stage.toUpperCase()}` : `GROUP ${match.group}`}
                           </span>
                                   <span>{match.date}</span>
@@ -1716,8 +1751,8 @@ export default function App() {
 
                                 <div className="flex flex-col gap-2">
                                   <div className="flex justify-between items-center">
-                            <span className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-                              <span>{getFlag(isKo ? match.defaultHome : match.home)}</span>
+                            <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                              <Flag team={isKo ? match.defaultHome : match.home} />
                               <span>{isKo ? match.defaultHome : match.home}</span>
                             </span>
                                     <input
@@ -1725,13 +1760,13 @@ export default function App() {
                                         placeholder="0"
                                         value={res.home === undefined ? '' : res.home}
                                         onChange={(e) => handleSaveRealResult(match.id, 'home', e.target.value)}
-                                        className="w-12 h-8 text-center bg-slate-900 border border-slate-800 rounded-lg text-sm text-amber-400 font-extrabold focus:outline-none focus:ring-1 focus:ring-amber-500"
+                                        className="w-12 h-8 text-center bg-white border border-slate-200 rounded-lg text-sm text-amber-600 font-extrabold focus:outline-none focus:ring-1 focus:ring-amber-500 shadow-xs"
                                     />
                                   </div>
 
                                   <div className="flex justify-between items-center">
-                            <span className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-                              <span>{getFlag(isKo ? match.defaultAway : match.away)}</span>
+                            <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                              <Flag team={isKo ? match.defaultAway : match.away} />
                               <span>{isKo ? match.defaultAway : match.away}</span>
                             </span>
                                     <input
@@ -1739,7 +1774,7 @@ export default function App() {
                                         placeholder="0"
                                         value={res.away === undefined ? '' : res.away}
                                         onChange={(e) => handleSaveRealResult(match.id, 'away', e.target.value)}
-                                        className="w-12 h-8 text-center bg-slate-900 border border-slate-800 rounded-lg text-sm text-amber-400 font-extrabold focus:outline-none focus:ring-1 focus:ring-amber-500"
+                                        className="w-12 h-8 text-center bg-white border border-slate-200 rounded-lg text-sm text-amber-600 font-extrabold focus:outline-none focus:ring-1 focus:ring-amber-500 shadow-xs"
                                     />
                                   </div>
                                 </div>
@@ -1756,29 +1791,29 @@ export default function App() {
 
           {/* VERIFICATION MODAL FORM COMPONENT */}
           {showActivationModal && pendingUserObj && (
-              <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-                <div className="bg-slate-900 border border-emerald-500/30 rounded-3xl max-w-md w-full p-6 shadow-2xl relative">
-                  <div className="p-3 bg-emerald-500/10 rounded-2xl max-w-max text-emerald-400 mb-4">
-                    <Mail className="w-6 h-6" />
+              <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+                <div className="bg-white border border-slate-200 rounded-3xl max-w-md w-full p-6 shadow-2xl relative">
+                  <div className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl max-w-max mb-4 shadow-xs">
+                    <Mail className="w-6 h-6 text-emerald-500" />
                   </div>
 
-                  <h3 className="font-extrabold text-lg text-slate-100">Verification Code Required</h3>
-                  <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                    We have dispatched a simulated activation code to <strong className="text-emerald-400 font-mono">{pendingUserObj.email}</strong>.
+                  <h3 className="font-extrabold text-lg text-slate-900">Verification Code Required</h3>
+                  <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                    We have dispatched a simulated activation code to <strong className="text-emerald-600 font-mono">{pendingUserObj.email}</strong>.
                   </p>
 
-                  {/* HIGH FIDELITY SIMULATED INBOX EMBEDDED INSIDE MODAL TO SOLVE BLURRED BACKDROP BUG */}
-                  <div className="mt-4 bg-slate-950 border border-slate-800/80 p-4 rounded-xl text-left">
-                    <div className="flex items-center gap-2 text-amber-400 font-mono text-[10px] uppercase font-bold tracking-wider mb-2 border-b border-slate-800 pb-2">
-                      <Inbox className="w-3.5 h-3.5" />
+                  {/* HIGH FIDELITY SIMULATED INBOX EMBEDDED INSIDE MODAL */}
+                  <div className="mt-4 bg-slate-50 border border-slate-200 p-4 rounded-xl text-left shadow-inner">
+                    <div className="flex items-center gap-2 text-slate-500 font-mono text-[10px] uppercase font-bold tracking-wider mb-2 border-b border-slate-200 pb-2">
+                      <Inbox className="w-3.5 h-3.5 text-slate-400" />
                       <span>Simulated Email Delivery Client</span>
                     </div>
-                    <div className="font-mono text-[10px] text-slate-400 leading-relaxed">
-                      <p className="text-slate-500"><strong className="text-slate-400">To:</strong> {pendingUserObj.email}</p>
-                      <p className="text-slate-500"><strong className="text-slate-400">Subject:</strong> Activation Code</p>
-                      <div className="mt-3 text-slate-300 bg-slate-900/50 p-2.5 rounded-lg border border-slate-850 text-center">
+                    <div className="font-mono text-[10px] text-slate-500 leading-relaxed">
+                      <p><strong className="text-slate-400">To:</strong> {pendingUserObj.email}</p>
+                      <p><strong className="text-slate-400">Subject:</strong> Activation Code</p>
+                      <div className="mt-3 text-slate-700 bg-white p-2.5 rounded-lg border border-slate-200 text-center shadow-xs">
                         <span className="text-slate-400 text-[10px] block mb-1">Your 6-digit code:</span>
-                        <span className="text-xl font-black tracking-widest text-emerald-400 select-all">
+                        <span className="text-xl font-black tracking-widest text-emerald-600 select-all font-mono">
                       {activationCodeSent}
                     </span>
                       </div>
@@ -1786,14 +1821,14 @@ export default function App() {
                   </div>
 
                   <div className="flex flex-col gap-1.5 mt-5">
-                    <label className="text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">6-Digit Activation Code</label>
+                    <label className="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">6-Digit Activation Code</label>
                     <input
                         type="text"
                         maxLength="6"
                         placeholder="Enter Code..."
                         value={enteredActivationCode}
                         onChange={(e) => setEnteredActivationCode(e.target.value)}
-                        className="bg-slate-950 border border-slate-800 text-lg rounded-xl tracking-widest text-center py-3 text-emerald-400 placeholder:text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-bold"
+                        className="bg-slate-50 border border-slate-200 text-lg rounded-xl tracking-widest text-center py-3 text-emerald-600 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-bold shadow-inner"
                     />
                   </div>
 
@@ -1803,13 +1838,13 @@ export default function App() {
                           setShowActivationModal(false);
                           setPendingUserObj(null);
                         }}
-                        className="bg-slate-800 hover:bg-slate-700 text-xs font-bold py-3.5 rounded-xl w-full text-slate-400"
+                        className="bg-slate-100 hover:bg-slate-200 text-xs font-bold py-3.5 rounded-xl w-full text-slate-500 transition-colors"
                     >
                       Cancel
                     </button>
                     <button
                         onClick={verifyActivationCode}
-                        className="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-black text-xs py-3.5 rounded-xl w-full text-center"
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs py-3.5 rounded-xl w-full text-center transition-colors shadow-sm"
                     >
                       Verify & Activate Entry
                     </button>
@@ -1821,15 +1856,15 @@ export default function App() {
         </main>
 
         {/* Footer Element */}
-        <footer className="border-t border-slate-900 bg-slate-950 py-8 px-4 mt-auto">
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
-            <div className="flex items-center gap-2">
+        <footer className="border-t border-slate-200 bg-white py-8 px-4 mt-auto">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+            <div className="flex items-center gap-2 font-medium">
               <span>⚽ 2026 World Cup pool simulator - costin setup</span>
             </div>
             <div className="flex gap-4">
-              <a href="#predictions" onClick={() => setActiveTab('predictions')} className="hover:text-slate-300 transition-colors">Predictions</a>
-              <a href="#leaderboard" onClick={() => setActiveTab('leaderboard')} className="hover:text-slate-300 transition-colors">Leaderboard</a>
-              <a href="#rules" onClick={() => triggerNotification("Score: Exact (7pts), Goal diff (4pts), Outcome (3pts), Single team match (1pt).")} className="hover:text-slate-300 transition-colors">Pool Rules</a>
+              <a href="#predictions" onClick={() => setActiveTab('predictions')} className="hover:text-slate-600 transition-colors">Predictions</a>
+              <a href="#leaderboard" onClick={() => setActiveTab('leaderboard')} className="hover:text-slate-600 transition-colors">Leaderboard</a>
+              <a href="#rules" className="hover:text-slate-600 transition-colors">Pool Rules</a>
             </div>
           </div>
         </footer>
