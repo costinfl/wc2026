@@ -186,13 +186,12 @@ const X = (props) => (
     </svg>
 );
 
-
 // 12 groups of World Cup 2026
 const TEAMS_BY_GROUP = {
     A: { name: 'Group A', teams: ['Mexico', 'South Africa', 'South Korea', 'Czechia'] },
     B: { name: 'Group B', teams: ['Canada', 'Switzerland', 'Qatar', 'Bosnia and Herzegovina'] },
     C: { name: 'Group C', teams: ['Brazil', 'Morocco', 'Haiti', 'Scotland'] },
-    D: { name: 'Group d', teams: ['United States', 'Paraguay', 'Australia', 'Türkiye'] },
+    D: { name: 'Group D', teams: ['United States', 'Paraguay', 'Australia', 'Türkiye'] },
     E: { name: 'Group E', teams: ['Germany', 'Curaçao', 'Côte d\'Ivoire', 'Ecuador'] },
     F: { name: 'Group F', teams: ['Netherlands', 'Japan', 'Tunisia', 'Sweden'] },
     G: { name: 'Group G', teams: ['Belgium', 'Egypt', 'Iran', 'New Zealand'] },
@@ -271,7 +270,6 @@ const Flag = ({ team, className = "w-5 h-3.5 object-cover rounded shadow border 
     );
 };
 
-
 const INITIAL_GROUP_MATCHES = [
     { id: 'm1', stage: 'group', group: 'A', home: 'Mexico', away: 'South Africa', date: 'June 11, 2026' },
     { id: 'm2', stage: 'group', group: 'A', home: 'South Korea', away: 'Czechia', date: 'June 11, 2026' },
@@ -311,16 +309,12 @@ const INITIAL_KNOCKOUT_MATCHES = [
     { id: 'ko_final', stage: 'final', homePlaceholder: 'Winner SF-1', awayPlaceholder: 'Winner SF-2', defaultHome: 'Brazil', defaultAway: 'France', date: 'July 19, 2026' }
 ];
 
-
-// Deterministic array mappings for compact URL packing
 const COMPACT_INDEX_KEYS = [
     'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9', 'm10', 'm11', 'm12',
     'm13', 'm14', 'm15', 'm16', 'm17', 'm18', 'm19', 'm20', 'm21', 'm22', 'm23', 'm24',
     'ko_r32_1', 'ko_r32_2', 'ko_r32_3', 'ko_r32_4', 'ko_r16_1', 'ko_r16_2', 'ko_qf_1', 'ko_sf_1', 'ko_final'
 ];
 
-
-// Pack predictions map into high-density Base64 string
 const packPredictionsString = (predictions) => {
     if (!predictions) return '';
     let packed = '';
@@ -341,7 +335,6 @@ const packPredictionsString = (predictions) => {
     }
 };
 
-// Unpack high-density Base64 string back into predictions map
 const unpackPredictionsString = (hash) => {
     if (!hash) return {};
     try {
@@ -371,8 +364,6 @@ const unpackPredictionsString = (hash) => {
     }
 };
 
-
-// Scoring engine
 export const calculatePoints = (prediction, actual) => {
     if (!actual || actual.home === undefined || actual.away === undefined || !actual.finished) {
         return { points: 0, reason: '-' };
@@ -405,7 +396,6 @@ export const calculatePoints = (prediction, actual) => {
     }
     return { points: 0, reason: 'Incorrect' };
 };
-
 
 export default function App() {
     // Friends list & local states
@@ -449,8 +439,6 @@ export default function App() {
         return friendsList.find(f => f.id === selectedFriendId) || null;
     }, [friendsList, selectedFriendId]);
 
-
-    // Toast Notification
     const triggerNotification = (message, type = 'success') => {
         setNotification({ text: message, type });
         setTimeout(() => {
@@ -458,7 +446,6 @@ export default function App() {
         }, 4500);
     };
 
-    // Safe clipboard copying with iframe fallback
     const handleCopyText = (text, successMsg = 'Copied to clipboard!') => {
         try {
             const el = document.createElement('textarea');
@@ -477,8 +464,6 @@ export default function App() {
         }
     };
 
-
-    // Read Local Storage values on launch, and parse URL invitation parameters
     useEffect(() => {
         let loadedUsers = [];
         try {
@@ -541,7 +526,6 @@ export default function App() {
         }
     }, []);
 
-    // Save changes to local storage helper
     const saveStateToLocal = (list) => {
         try {
             localStorage.setItem('wc_users', JSON.stringify(list));
@@ -550,8 +534,6 @@ export default function App() {
         }
     };
 
-
-    // Handle manual code parsing from inputs
     const handleManualShareCodeImport = (e) => {
         e.preventDefault();
         if (!manualShareCode.trim()) return;
@@ -584,7 +566,6 @@ export default function App() {
         triggerNotification(`Successfully loaded predictions onto ${selectedFriend?.name}'s slate!`);
     };
 
-    // Safe Predict Score change
     const savePrediction = (matchId, team, scoreVal) => {
         if (!selectedFriendId) {
             triggerNotification("Please register or select a user first before predicting!", "error");
@@ -611,8 +592,6 @@ export default function App() {
         saveStateToLocal(updatedFriends);
     };
 
-
-    // Submits registration and fires off simulated inbox code
     const handleRegisterSubmit = (e) => {
         e.preventDefault();
         if (!regName.trim() || !regEmail.trim()) {
@@ -644,7 +623,6 @@ export default function App() {
         triggerNotification(`Activation code dispatched to ${regEmail}!`, "info");
     };
 
-    // Verification
     const verifyActivationCode = () => {
         if (enteredActivationCode.trim() !== activationCodeSent) {
             triggerNotification("Incorrect activation number! Check the Simulated Inbox panel.", "error");
@@ -664,8 +642,6 @@ export default function App() {
         triggerNotification(`Welcome, ${pendingUserObj.name}! Your account has been verified and activated.`);
     };
 
-
-    // Admin triggers User Removal flow
     const handleRequestRemoveUser = (targetFriend) => {
         if (!isAdminMode) {
             triggerNotification("Access Denied! You must be logged in as verified Admin Costin.", "error");
@@ -674,7 +650,6 @@ export default function App() {
         setUserToDelete(targetFriend);
     };
 
-    // Execution of Deletion
     const handleExecuteDeleteUser = () => {
         if (!userToDelete) return;
 
@@ -690,8 +665,6 @@ export default function App() {
         setUserToDelete(null);
     };
 
-
-    // Gatekeeper trigger for Costin's admin master panel
     const handleToggleAdminMode = () => {
         if (isAdminMode) {
             setIsAdminMode(false);
@@ -712,8 +685,6 @@ export default function App() {
         }
     };
 
-
-    // Admin writes real scoreline
     const handleSaveRealResult = (matchId, team, scoreVal) => {
         const numericScore = scoreVal === '' ? '' : parseInt(scoreVal);
         if (isNaN(numericScore) && scoreVal !== '') return;
@@ -736,7 +707,6 @@ export default function App() {
         triggerNotification(`Match score updated and recalculations triggered!`);
     };
 
-    // Admin randomized outcomes
     const handleSimulateGroupOutcomes = () => {
         const simulated = { ...realResults };
         groupMatches.forEach(match => {
@@ -755,7 +725,6 @@ export default function App() {
         }
     };
 
-    // Autocomplete prediction list randomly
     const handleRandomizeCurrentPredictions = () => {
         if (!selectedFriend) {
             triggerNotification("Register or select a profile first!", "error");
@@ -789,8 +758,6 @@ export default function App() {
         triggerNotification(`Randomized predictions for ${selectedFriend.name}!`);
     };
 
-
-    // Standings score calculator
     const friendsWithScoredPoints = useMemo(() => {
         return friendsList.map(friend => {
             let total = 0;
@@ -838,7 +805,6 @@ export default function App() {
         }).sort((a, b) => b.totalPoints - a.totalPoints);
     }, [friendsList, realResults, groupMatches, knockoutMatches]);
 
-    // Generate complete invite link for active competitor
     const activeUserShareLink = useMemo(() => {
         if (!selectedFriend) return '';
         const cleanUrl = window.location.origin + window.location.pathname;
@@ -850,7 +816,6 @@ export default function App() {
         if (!selectedFriend) return '';
         return packPredictionsString(selectedFriend.predictions);
     }, [selectedFriend]);
-
 
     return (
         <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-emerald-100 selection:text-emerald-900">
@@ -1007,7 +972,6 @@ export default function App() {
                     </div>
                 )}
 
-                {}
                 {/* HEAD-TO-HEAD READ-ONLY PREDICTIONS COMPARISON PANEL */}
                 {comparisonTargetFriend && (
                     <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
@@ -1028,7 +992,7 @@ export default function App() {
                                     <span className="text-emerald-700">{comparisonTargetFriend.name}</span>
                                 </h3>
                                 <p className="text-xs text-slate-500 mt-1">
-                                    View how {comparisonTargetFriend.name}'s predictions differ from yours, match-by-match.
+                                    View how {comparisonTargetFriend.name}&apos;s predictions differ from yours, match-by-match.
                                 </p>
                             </div>
 
@@ -1198,14 +1162,14 @@ export default function App() {
                             <form onSubmit={handleRegisterSubmit} className="flex flex-wrap sm:flex-nowrap gap-2.5 w-full md:w-auto">
                                 <input
                                     type="text"
-                                    placeholder="Friend's Name..."
+                                    placeholder="Friend&apos;s Name..."
                                     value={regName}
                                     onChange={(e) => setRegName(e.target.value)}
                                     className="bg-slate-50 border border-slate-200 text-xs rounded-xl px-3 py-2 w-full sm:w-40 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                                 />
                                 <input
                                     type="email"
-                                    placeholder="Friend's Email..."
+                                    placeholder="Friend&apos;s Email..."
                                     value={regEmail}
                                     onChange={(e) => setRegEmail(e.target.value)}
                                     className="bg-slate-50 border border-slate-200 text-xs rounded-xl px-3 py-2 w-full sm:w-44 focus:outline-none focus:ring-2 focus:ring-emerald-500"
@@ -1319,8 +1283,8 @@ export default function App() {
                                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                                             <div>
                                                 <span className="text-xs text-emerald-600 font-extrabold uppercase tracking-wider block">Active Pool Entry</span>
-                                                <h3 className="text-lg font-black text-slate-900">
-                                                    {selectedFriend.name}'s Board
+                                                <h3 className="text-lg font-black text-slate-900 font-sans">
+                                                    {selectedFriend.name + "'s Board"}
                                                 </h3>
                                                 <p className="text-xs text-slate-500 mt-0.5">{selectedFriend.email}</p>
                                             </div>
@@ -1349,7 +1313,7 @@ export default function App() {
                                         {/* Manual Import State */}
                                         {showManualImportField && (
                                             <form onSubmit={handleManualShareCodeImport} className="bg-slate-50 border border-slate-200 p-4 rounded-xl flex flex-col gap-2.5 animate-fade-in shadow-inner">
-                                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Paste Friend's Packed Base64 Hash</label>
+                                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Paste Friend&apos;s Packed Base64 Hash</label>
                                                 <div className="flex gap-2">
                                                     <input
                                                         type="text"
@@ -1617,7 +1581,7 @@ export default function App() {
                                 </span>
                                                         </td>
                                                         {/* ACTION COLUMN FOR VIEWING/DELETING */}
-                                                        <td className="py-4 px-4 text-right flex items-center justify-end gap-1.5">
+                                                        <td className="py-4 px-4 text-right flex items-center justify-end gap-1.5 font-bold">
                                                             <button
                                                                 onClick={() => setComparisonTargetFriend(friend)}
                                                                 className="p-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-100 rounded-lg transition-colors inline-flex items-center gap-1 text-[11px] font-bold shadow-xs"
@@ -1633,7 +1597,7 @@ export default function App() {
                                                                     className="p-1.5 bg-red-50 hover:bg-red-100 border border-red-100 text-red-600 rounded-lg transition-colors inline-flex items-center gap-1 text-[11px] font-bold shadow-xs"
                                                                     title={`Purge user ${friend.name}`}
                                                                 >
-                                                                    <Trash2 className="w-3.5 h-3.5 text-red-500" />
+                                                                    <Trash2 className="w-3.5 h-3.5 text-red-505" />
                                                                 </button>
                                                             )}
                                                         </td>
@@ -1697,7 +1661,7 @@ export default function App() {
                                                 <div className="text-center font-bold text-xs uppercase text-slate-400 tracking-wider mb-2">Round of 16</div>
 
                                                 {knockoutMatches.filter(m => m.stage === 'r16').map(match => (
-                                                    <div key={match.id} className="bg-white border border-emerald-100 p-3 rounded-xl relative shadow-xs">
+                                                    <div key={match.id} className="bg-white border border-emerald-105 p-3 rounded-xl relative shadow-xs">
                                                         <div className="text-[9px] text-emerald-600 font-bold uppercase mb-1">{match.date}</div>
 
                                                         <div className="flex items-center justify-between gap-2 text-xs py-1">
@@ -1794,12 +1758,12 @@ export default function App() {
                                   <Flag team={match.defaultAway} />
                                   <span>{match.defaultAway}</span>
                                 </span>
-                                                                <span className="font-extrabold text-amber-400 text-sm">{realResults[match.id]?.away ?? '-'}</span>
+                                                                <span className="font-extrabold text-amber-400 text-md">{realResults[match.id]?.away ?? '-'}</span>
                                                             </div>
                                                         </div>
 
                                                         <div className="mt-4 text-center">
-                              <span className="text-[10px] bg-amber-50 text-amber-700 border border-amber-205 px-3 py-1 rounded-full font-bold">
+                              <span className="text-[10px] bg-amber-500/10 text-amber-700 border border-amber-205 px-3 py-1 rounded-full font-bold">
                                 Championship Match
                               </span>
                                                         </div>
@@ -1820,21 +1784,21 @@ export default function App() {
 
                                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                                     <div>
-                                        <h3 className="text-md font-bold text-slate-900 flex items-center gap-2">
+                                        <h3 className="text-md font-bold text-amber-400 flex items-center gap-2">
                                             <Settings className="w-5 h-5" />
-                                            Costin's Results Master Console
+                                            Costin&apos;s Results Master Console
                                         </h3>
                                         <p className="text-xs text-slate-500 mt-1">
-                                            Set actual finished match scores below. Everyone's scoreboard points will instantly update according to predictions.
+                                            Set actual finished match scores below. Everyone&apos;s scoreboard points will instantly update according to predictions.
                                         </p>
                                     </div>
 
                                     <div className="flex flex-wrap gap-2">
                                         <button
                                             onClick={handleSimulateGroupOutcomes}
-                                            className="bg-amber-500 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl hover:bg-amber-600 transition-colors flex items-center gap-1.5 shadow-xs"
+                                            className="bg-amber-500 text-slate-950 font-extrabold text-xs px-4 py-2.5 rounded-xl hover:bg-amber-400 transition-colors flex items-center gap-1.5"
                                         >
-                                            <Shuffle className="w-4 h-4 text-slate-950" />
+                                            <Shuffle className="w-4 h-4 text-slate-955" />
                                             Simulate Random Match Scores
                                         </button>
                                         <button
@@ -1843,7 +1807,7 @@ export default function App() {
                                                 localStorage.removeItem('wc_real_scores');
                                                 triggerNotification("All settled match outcomes cleared!", "info");
                                             }}
-                                            className="bg-slate-100 hover:bg-slate-200 text-xs font-bold px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 transition-colors shadow-xs"
+                                            className="bg-slate-800 hover:bg-slate-700 text-xs font-bold px-4 py-2.5 rounded-xl border border-slate-700 text-slate-300 transition-colors"
                                         >
                                             Reset Scorelines
                                         </button>
@@ -1851,14 +1815,14 @@ export default function App() {
                                 </div>
 
                                 {/* USER REMOVAL LIST IN MASTER CONSOLE FOR EASIER POOL CLEANUP */}
-                                <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl shadow-inner">
+                                <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl">
                                     <h4 className="text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider">Quick Teammate Pool Management (Costin-Only)</h4>
                                     {friendsList.length === 0 ? (
                                         <span className="text-xs text-slate-400">No registered competitors in the pool.</span>
                                     ) : (
                                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                                             {friendsList.map(f => (
-                                                <div key={f.id} className="bg-white border border-slate-200 p-3 rounded-xl flex items-center justify-between shadow-xs">
+                                                <div key={f.id} className="bg-white border border-slate-200 p-3 rounded-lg flex items-center justify-between">
                                                     <div className="truncate pr-2">
                                                         <span className="text-xs font-bold block truncate text-slate-800">{f.name}</span>
                                                         <span className="text-[10px] text-slate-500 block truncate">{f.email}</span>
@@ -1876,13 +1840,13 @@ export default function App() {
                                     )}
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 border-t border-slate-200 pt-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 border-t border-slate-800 pt-6">
                                     {[...groupMatches, ...knockoutMatches].map(match => {
                                         const res = realResults[match.id] || { home: '', away: '' };
                                         const isKo = match.stage !== 'group';
                                         return (
                                             <div key={match.id} className="bg-slate-950 border border-slate-800 p-4 rounded-xl flex flex-col gap-3">
-                                                <div className="flex justify-between items-center text-xs text-slate-505">
+                                                <div className="flex justify-between items-center text-xs text-slate-500">
                           <span className="font-bold">
                             {isKo ? `PLAYOFFS: ${match.stage.toUpperCase()}` : `GROUP ${match.group}`}
                           </span>
@@ -1892,7 +1856,7 @@ export default function App() {
                                                 <div className="flex flex-col gap-2">
                                                     <div className="flex justify-between items-center">
                             <span className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-                              <Flag team={isKo ? match.defaultHome : match.home} />
+                              <span>{getFlag(isKo ? match.defaultHome : match.home)}</span>
                               <span>{isKo ? match.defaultHome : match.home}</span>
                             </span>
                                                         <input
@@ -1906,7 +1870,7 @@ export default function App() {
 
                                                     <div className="flex justify-between items-center">
                             <span className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-                              <Flag team={isKo ? match.defaultAway : match.away} />
+                              <span>{getFlag(isKo ? match.defaultAway : match.away)}</span>
                               <span>{isKo ? match.defaultAway : match.away}</span>
                             </span>
                                                         <input
@@ -1961,7 +1925,7 @@ export default function App() {
                             </div>
 
                             <div className="flex flex-col gap-1.5 mt-5">
-                                <label className="text-[10px] font-extrabold uppercase text-slate-505 tracking-wider">6-Digit Activation Code</label>
+                                <label className="text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">6-Digit Activation Code</label>
                                 <input
                                     type="text"
                                     maxLength="6"
@@ -1997,14 +1961,14 @@ export default function App() {
 
             {/* Footer Element */}
             <footer className="border-t border-slate-200 bg-white py-8 px-4 mt-auto">
-                <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
-                    <div className="flex items-center gap-2 font-medium">
+                <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+                    <div className="flex items-center gap-2">
                         <span>⚽ 2026 World Cup pool simulator - costin setup</span>
                     </div>
                     <div className="flex gap-4">
-                        <a href="#predictions" onClick={() => setActiveTab('predictions')} className="hover:text-slate-600 transition-colors">Predictions</a>
-                        <a href="#leaderboard" onClick={() => setActiveTab('leaderboard')} className="hover:text-slate-600 transition-colors">Leaderboard</a>
-                        <a href="#rules" className="hover:text-slate-600 transition-colors">Pool Rules</a>
+                        <a href="#predictions" onClick={() => setActiveTab('predictions')} className="hover:text-slate-300 transition-colors">Predictions</a>
+                        <a href="#leaderboard" onClick={() => setActiveTab('leaderboard')} className="hover:text-slate-300 transition-colors">Leaderboard</a>
+                        <a href="#rules" onClick={() => triggerNotification("Score: Exact (7pts), Goal diff (4pts), Outcome (3pts), Single team match (1pt).")} className="hover:text-slate-300 transition-colors">Pool Rules</a>
                     </div>
                 </div>
             </footer>
